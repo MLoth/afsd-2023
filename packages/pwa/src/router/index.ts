@@ -7,33 +7,28 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('../views/Home.vue'),
+      component: () => import('../views/Dashboard.vue'),
     },
 
     {
       path: '/birds',
-      component: () => import('../views/Birds.vue'),
+      component: () => import('../views/birds/index.vue'),
+    },
+    {
+      path: '/birds/:slug',
+      component: () => import('../views/birds/_slug.vue'),
     },
 
     {
       path: '/observations',
-      component: () => import('../views/ObservationsWrapper.vue'),
-      children: [
-        {
-          path: '',
-          component: () => import('../views/Observations.vue'),
-        },
+      component: () => import('../views/observations/index.vue'),
+      meta: { shouldBeAuthenticated: true },
+    },
 
-        {
-          path: 'new',
-          component: () => import('../views/ObservationNew.vue'),
-        },
-
-        {
-          path: ':id',
-          component: () => import('../views/Observation.vue'),
-        },
-      ],
+    {
+      path: '/account',
+      component: () => import('../views/Account.vue'),
+      meta: { shouldBeAuthenticated: true },
     },
 
     {

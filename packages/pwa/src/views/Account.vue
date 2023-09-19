@@ -18,7 +18,7 @@
 
       <button
         @click="logoutUser"
-        class="px-6 py-2 text-white bg-red-600 rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-4 ring-red-300 hover:bg-red-800"
+        class="px-6 py-2 text-white bg-red-600 rounded-md focus:outline-none focus-visible:ring-4 ring-red-300 hover:bg-red-800"
       >
         Log out
       </button>

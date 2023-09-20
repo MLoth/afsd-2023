@@ -21,7 +21,7 @@
         name="email"
         id="email"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
-        v-model="LoginCredentials.email"
+        v-model="loginCredentials.email"
       />
     </div>
     <div class="mt-6">
@@ -36,7 +36,7 @@
         name="password"
         id="password"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
-        v-model="LoginCredentials.password"
+        v-model="loginCredentials.password"
       />
       <RouterLink
         to="/auth/forgot-password"
@@ -74,14 +74,14 @@ export default {
     const { login, firebaseUser } = useFirebase()
 
     // Logic
-    const LoginCredentials = ref({
+    const loginCredentials = ref({
       email: 'martijn.loth@howest.be',
       password: '',
     })
     const error = ref<AuthError | null>(null)
 
     const handleLogin = () => {
-      login(LoginCredentials.value.email, LoginCredentials.value.password)
+      login(loginCredentials.value.email, loginCredentials.value.password)
         .then(() => {
           console.log('logged in')
         })
@@ -91,7 +91,7 @@ export default {
     }
 
     return {
-      LoginCredentials,
+      loginCredentials,
       firebaseUser,
 
       error,

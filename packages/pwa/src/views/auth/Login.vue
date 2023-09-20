@@ -5,9 +5,9 @@
       Login to your account, check your birds.
     </p>
 
-    <!-- <div v-if="error">
+    <div v-if="error">
       <p class="text-red-600">{{ error.message }}</p>
-    </div> -->
+    </div>
 
     <div class="mt-6">
       <label
@@ -64,6 +64,8 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import { type AuthError } from 'firebase/auth'
+
 import useFirebase from '@/composables/useFirebase'
 
 export default {
@@ -76,19 +78,23 @@ export default {
       email: 'martijn.loth@howest.be',
       password: '',
     })
+    const error = ref<AuthError | null>(null)
 
     const handleLogin = () => {
-      login(LoginCredentials.value.email, LoginCredentials.value.password).then(
-        () => {
+      login(LoginCredentials.value.email, LoginCredentials.value.password)
+        .then(() => {
           console.log('logged in')
-        },
-      )
+        })
+        .catch((err: AuthError) => {
+          error.value = err
+        })
     }
 
     return {
       LoginCredentials,
       firebaseUser,
 
+      error,
       handleLogin,
     }
   },

@@ -1,9 +1,13 @@
 <template>
-  <form class="w-full">
+  <form @submit.prevent="handleResetPassword" class="w-full">
     <h1 class="text-4xl font-bold tracking-wider">Forgot password?</h1>
     <p class="text-neutral-500 mb-4">
       No worries, we'll email you a link to reset your password.
     </p>
+
+    <div v-if="error">
+      <p class="text-red-600">{{ error.message }}</p>
+    </div>
 
     <div class="mt-6">
       <label
@@ -35,3 +39,33 @@
     </div>
   </form>
 </template>
+
+<script lang="ts">
+import { ref } from 'vue'
+import { type AuthError } from 'firebase/auth'
+
+import useFirebase from '@/composables/useFirebase'
+
+export default {
+  script() {
+    // Composables
+    const { resetPassword } = useFirebase()
+
+    const email = ref<string>('')
+    const error = ref<AuthError | null>(null)
+
+    const handleResetPassword = () => {
+      resetPassword(email.value).then(() => {
+        // TODO: show notification
+      })
+    }
+
+    return {
+      email,
+      error,
+
+      handleResetPassword,
+    }
+  },
+}
+</script>

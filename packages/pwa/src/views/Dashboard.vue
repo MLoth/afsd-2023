@@ -14,8 +14,6 @@
       <div>
         <h2>Bird of the day</h2>
       </div>
-
-      <Test />
     </Container>
   </div>
 </template>

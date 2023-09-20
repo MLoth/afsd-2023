@@ -2,12 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Birds from '../views/Birds.vue'
 
+import useFirebase from '@/composables/useFirebase'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       component: () => import('../views/Dashboard.vue'),
+      meta: { shouldBeAuthenticated: true },
     },
 
     {
@@ -57,6 +60,17 @@ const router = createRouter({
       component: () => import('../views/NotFound.vue'),
     },
   ],
+})
+
+router.beforeEach(async (to, from, next) => {
+  const { firebaseUser } = useFirebase()
+
+  if (to.meta.shouldBeAuthenticated && !firebaseUser.value) {
+    console.log('HACKER')
+    next({ path: '/auth/login' })
+  } else {
+    next()
+  }
 })
 
 export default router

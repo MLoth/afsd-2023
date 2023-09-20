@@ -1,6 +1,6 @@
 <template>
-  <form @submit="handleLogin" class="w-full">
-    <h1 class="text-4xl font-bold tracking-wider">Login</h1>
+  <form @submit.prevent="handleLogin" class="w-full">
+    <h1 class="text-4xl font-bold tracking-wider">Login {{ firebaseUser }}</h1>
     <p class="text-neutral-500 mb-4">
       Login to your account, check your birds.
     </p>
@@ -64,20 +64,30 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import useFirebase from '@/composables/useFirebase'
 
 export default {
   setup() {
+    // Composables
+    const { login, firebaseUser } = useFirebase()
+
+    // Logic
     const LoginCredentials = ref({
       email: 'martijn.loth@howest.be',
       password: '',
     })
 
     const handleLogin = () => {
-      console.log(LoginCredentials.value)
+      login(LoginCredentials.value.email, LoginCredentials.value.password).then(
+        () => {
+          console.log('logged in')
+        },
+      )
     }
 
     return {
       LoginCredentials,
+      firebaseUser,
 
       handleLogin,
     }

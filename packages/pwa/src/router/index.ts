@@ -41,6 +41,7 @@ const router = createRouter({
         {
           path: 'login',
           component: () => import('../views/auth/Login.vue'),
+          meta: { preventLoggedIn: true },
         },
 
         {
@@ -66,8 +67,10 @@ router.beforeEach(async (to, from, next) => {
   const { firebaseUser } = useFirebase()
 
   if (to.meta.shouldBeAuthenticated && !firebaseUser.value) {
-    console.log('HACKER')
     next({ path: '/auth/login' })
+  }
+  if (to.meta.preventLoggedIn && firebaseUser.value) {
+    next({ path: '/' })
   } else {
     next()
   }

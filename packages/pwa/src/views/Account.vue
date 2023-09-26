@@ -1,7 +1,7 @@
 <template>
   <Container>
     <h1 class="text-4xl font-bold tracking-wide mb-6">
-      Hi, {{ user?.displayName }}
+      Hi, {{ firebaseUser?.displayName }}
     </h1>
 
     <form @submit.prevent="">
@@ -32,10 +32,10 @@ import { useRouter } from 'vue-router'
 import Container from '@/components/generic/Container.vue'
 import useFirebase from '@/composables/useFirebase'
 
-const { user, logout } = useFirebase()
+const { firebaseUser, logout } = useFirebase()
 const { replace } = useRouter()
 
-user.value?.getIdToken().then(token => {
+firebaseUser.value?.getIdToken().then(token => {
   console.log(`{"Authorization": "Bearer ${token}"}`)
 })
 

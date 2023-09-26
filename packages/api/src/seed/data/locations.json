@@ -1,0 +1,97 @@
+[
+  {
+    "name": "kortrijk weide",
+    "Polygon": {
+      "coordinates": [
+        [
+          [3.253174, 50.8233894],
+          [3.2513479, 50.8248729],
+          [3.2526568, 50.825754],
+          [3.2520774, 50.8262826],
+          [3.2500175, 50.8254287],
+          [3.2485584, 50.8245341],
+          [3.249009, 50.8240597],
+          [3.2497815, 50.8235717],
+          [3.2498458, 50.8231108],
+          [3.2493094, 50.8227448],
+          [3.2506612, 50.8216468],
+          [3.253174, 50.8233894]
+        ]
+      ],
+      "type": "Polygon"
+    },
+    "birds": [
+      {
+        "name": "Blauwe kiekendief",
+        "fullname": "Hen Harrier, Circus cyaneus",
+        "category": "Sperwerachtigen (Accipitridae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/blauwe-kiekendief",
+        "description": "Blauwe kiekendieven leven in open, vochtige gebieden: duinen, moerassen, akkers en graslanden. Opvallend in alle kleden is de witte stuit die in vlucht een duidelijk onderscheid met de bruine kiekendief vormt. Op het menu staan kleine zoogdieren en konijnen. Maar ook kleine vogels worden af en toe verschalkt.",
+        "point": [3.2532, 50.824789]
+      },
+      {
+        "name": "Blauwe reiger",
+        "fullname": "Grey Heron, Ardea cinerea",
+        "category": "Reigers (Ardeidae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/blauwe-reiger",
+        "description": "Het is nauwelijks voor te stellen dat blauwe reigers vroeger schuwe vogels waren. Verborgen leidden ze hun leven. Tegenwoordig zijn blauwe reigers in en om elke stad te vinden en bezoeken ze vrijwel iedere tuin met een vijver op regelmatige basis. Blauwe reigers zijn echte sloot-food specialisten, maar vullen hun menu ook graag aan met mollen, muizen en grote insecten zoals sprinkhanen. Vis is echter vrijwel altijd het hoofdbestanddeel van hun eten.",
+        "point": [3.251011, 50.822891]
+      },
+      {
+        "name": "Blonde ruiter",
+        "fullname": "Buff-breasted Sandpiper, Calidris subruficollis",
+        "category": "Strandlopers (Scolopacidae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/blonde-ruiter",
+        "description": "De blonde ruiter is een zeldzame soort die af en toe verdwaalt vanuit Amerika. Hij is een slag kleiner dan de meeste andere ruiters, nog kleiner dan een bosruiter. Hoort formeel gezien bij de strandlopers. Hij heeft een prachtig baltsritueel dat in Nederland soms te zien is bij vogels in het voorjaar, waarbij het mannetje de vleugels gespreid omhoog houdt, de kop naar achteren gooit, en op die manier zo veel mogelijk vrouwtjes probeert het hof te maken.",
+        "point": [3.249681, 50.826172]
+      },
+      {
+        "name": "Fluiter",
+        "fullname": "Wood Warbler, Phylloscopus sibilatrix",
+        "category": "Boszangers (Phylloscopidae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/fluiter",
+        "description": "De fluiter leidt een vrij onopvallend bestaan, maar is een van de mooiste zangvogels van Nederland. Een helderwitte buik, een citroengele borst en een opvallende, gele wenkbrauwstreep. Maar waarschijnlijk hoor je een fluiter eerder dan dat je de vogel ziet. Als je door een mooi hoog bos loopt en je hoort een ‘rondtollende munt' uit een boom komen, dan zit daar bijna zeker een fluiter."
+      }
+    ]
+  },
+
+  {
+    "name": "Kortrijk Square",
+    "Polygon": {
+      "coordinates": [
+        [
+          [3.6752956, 51.0520678],
+          [3.6751494, 51.0520036],
+          [3.678411, 51.0476331],
+          [3.6796985, 51.0427765],
+          [3.6835608, 51.0370019],
+          [3.6881957, 51.0369479],
+          [3.6901698, 51.0392147],
+          [3.6945472, 51.0426146],
+          [3.7005553, 51.0446653],
+          [3.7040744, 51.0459604],
+          [3.6752956, 51.0520678]
+        ]
+      ],
+      "type": "Polygon"
+    },
+    "birds": [
+      {
+        "name": "Blonde ruiter",
+        "fullname": "Buff-breasted Sandpiper, Calidris subruficollis",
+        "category": "Strandlopers (Scolopacidae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/blonde-ruiter",
+        "description": "De blonde ruiter is een zeldzame soort die af en toe verdwaalt vanuit Amerika. Hij is een slag kleiner dan de meeste andere ruiters, nog kleiner dan een bosruiter. Hoort formeel gezien bij de strandlopers. Hij heeft een prachtig baltsritueel dat in Nederland soms te zien is bij vogels in het voorjaar, waarbij het mannetje de vleugels gespreid omhoog houdt, de kop naar achteren gooit, en op die manier zo veel mogelijk vrouwtjes probeert het hof te maken.",
+        "point": [3.303738, 50.824087]
+      },
+      {
+        "name": "Boompieper",
+        "fullname": "Tree pipit, Anthus trivialis",
+        "category": "Kwikstaarten (Motacillidae)",
+        "url": "https://www.vogelbescherming.nl/ontdek-vogels/kennis-over-vogels/vogelgids/vogel/boompieper",
+        "description": "De boompieper leeft graag aan de rand van bossen en open plekken. Moerassen zijn zeer geliefd, maar ook kaalgekapte bospercelen en heideterreinen worden volop bewoond door boompiepers. In tegenstelling tot graspiepers gaan boompiepers vaak in een boom zitten. Vooral de zangvlucht van een boompieper, net als die van de graspieper, is erg karakteristiek. Vanuit een boom begint de vogel omhoog te vliegen om vervolgens als een parachute of een badmintonshuttle met stijve vleugels en hangende poten weer in een boom te landen. Midden op de dag op een zinderende hete heide, als alle andere vogelsoorten hun snavels op elkaar houden, kan de melodieuze zang van boompiepers nog gehoord worden.",
+        "point": [3.305547, 50.824499]
+      }
+    ]
+  }
+]

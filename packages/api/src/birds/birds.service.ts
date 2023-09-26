@@ -39,4 +39,14 @@ export class BirdsService {
   remove(id: number) {
     return `This action removes a #${id} bird`
   }
+
+  //logica for seeding
+
+  saveAll(birds: Bird[]) {
+    return this.birdRepository.save(birds)
+  }
+
+  truncate() {
+    return this.birdRepository.clear()
+  }
 }

@@ -13,7 +13,15 @@ export class BirdsService {
   ) {}
 
   create(createBirdInput: CreateBirdInput) {
-    return 'This action adds a new bird'
+    const b = new Bird()
+    b.name = createBirdInput.name
+    b.fullname = createBirdInput.fullname
+    b.category = createBirdInput.category
+    // b.url = createBirdInput.url
+    // b.observations = createBirdInput.observations
+    // b.description = createBirdInput.description
+
+    return this.birdRepository.save(b)
   }
 
   findAll() {

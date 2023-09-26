@@ -1,6 +1,6 @@
 <template>
-  <Container class="py-12"
-    ><header class="flex items-center justify-between">
+  <Container class="py-12">
+    <header class="flex items-center justify-between">
       <RouterLink
         class="flex items-center space-x-4 hover:opacity-30 focus:outline-none focus-visible:ring-4 ring-blue-400 rounded-lg"
         to="/"
@@ -17,45 +17,47 @@
               class="py-2 rounded-md focus:outline-none focus-visible:ring-4 ring-blue-400 font-semibold tracking-wide hover:opacity-40"
               active-class="opacity-30"
               to="/"
-              >Home</RouterLink
             >
+              Home
+            </RouterLink>
           </li>
           <li>
             <RouterLink
               class="py-2 rounded-md focus:outline-none focus-visible:ring-4 ring-blue-400 font-semibold tracking-wide hover:opacity-40"
               active-class="opacity-30"
               to="/birds"
-              >Birds</RouterLink
             >
+              Birds
+            </RouterLink>
           </li>
           <li>
             <RouterLink
               class="py-2 rounded-md focus:outline-none focus-visible:ring-4 ring-blue-400 font-semibold tracking-wide hover:opacity-40"
               active-class="opacity-30"
               to="/observations"
-              >Observations</RouterLink
             >
+              Observations
+            </RouterLink>
           </li>
           <li>
             <RouterLink
-              class="block rounded-full focus:outline-none focus-visible:ring-4 ring-blue-400"
-              :to="user ? `/account` : `/auth/login`"
+              class="block rounded-full focus:outline-none focus-visible:ring-4 ring-blue-400 hover:bg-neutral-100 py-2 px-3"
+              :to="firebaseUser ? `/account` : `/auth/login`"
             >
-              <div
-                v-if="user"
-                class="rounded-full overflow-hidden h-10 w-10 object-fit hover:ring-4 ring-neutral-100"
-              >
+              <div v-if="firebaseUser" class="flex items-center gap-3">
                 <img
-                  v-if="user.photoURL"
-                  :src="user.photoURL"
+                  v-if="firebaseUser.photoURL"
+                  :src="firebaseUser.photoURL"
                   alt="Profile picture"
                 />
                 <div
                   v-else
-                  class="flex items-center justify-center bg-white h-full"
+                  class="rounded-full overflow-hidden h-10 w-10 object-fit ring-neutral-100 flex items-center justify-center bg-white"
                 >
                   <User2 class="h-8 object-cover" />
                 </div>
+
+                <p class="pr-1">{{ firebaseUser.displayName }}</p>
               </div>
               <div v-else>
                 <p>Login</p>
@@ -69,11 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { User2 } from 'lucide-vue-next'
+
+import useFirebase from '@/composables/useFirebase'
 
 import Container from './Container.vue'
 import Logo from './Logo.vue'
 
-const user = ref<Object | null>(null)
+const { firebaseUser } = useFirebase()
 </script>

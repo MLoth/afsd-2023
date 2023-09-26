@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleLogin" class="w-full">
-    <h1 class="text-4xl font-bold tracking-wider">Login</h1>
+    <h1 class="text-4xl font-bold tracking-wider">Login {{ firebaseUser }}</h1>
     <p class="text-neutral-500 mb-4">
       Login to your account, check your birds.
     </p>
@@ -21,7 +21,7 @@
         name="email"
         id="email"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
-        v-model="credentials.email"
+        v-model="loginCredentials.email"
       />
     </div>
     <div class="mt-6">
@@ -36,7 +36,7 @@
         name="password"
         id="password"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
-        v-model="credentials.password"
+        v-model="loginCredentials.password"
       />
       <RouterLink
         to="/auth/forgot-password"
@@ -62,37 +62,43 @@
   </form>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { ref } from 'vue'
-import { FirebaseError } from 'firebase/app'
+import { type AuthError } from 'firebase/auth'
+
 import useFirebase from '@/composables/useFirebase'
 import { useRouter } from 'vue-router'
-const { login } = useFirebase()
-const { replace } = useRouter()
 
-const credentials = ref({
-  email: '',
-  password: '',
-})
-const error = ref<FirebaseError | undefined>()
+export default {
+  setup() {
+    // Composables
+    const { login, firebaseUser } = useFirebase()
+    const { push } = useRouter()
 
-const handleLogin = () => {
-  if (credentials.value.email === '' || credentials.value.password === '') {
-    error.value = {
-      name: 'Invalid credentials',
-      code: 'auth/invalid-email',
-      message: 'Please enter valid credentials.',
+    // Logic
+    const loginCredentials = ref({
+      email: 'martijn.loth@howest.be',
+      password: '',
+    })
+    const error = ref<AuthError | null>(null)
+
+    const handleLogin = () => {
+      login(loginCredentials.value.email, loginCredentials.value.password)
+        .then(() => {
+          push('/')
+        })
+        .catch((err: AuthError) => {
+          error.value = err
+        })
     }
-    return
-  }
 
-  login(credentials.value)
-    .then(() => {
-      error.value = undefined
-      replace({ path: '/' })
-    })
-    .catch((err: FirebaseError) => {
-      error.value = err
-    })
+    return {
+      loginCredentials,
+      firebaseUser,
+
+      error,
+      handleLogin,
+    }
+  },
 }
 </script>

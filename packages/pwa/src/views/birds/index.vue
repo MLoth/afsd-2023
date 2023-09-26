@@ -1,10 +1,8 @@
 <template>
   <Container>
-    <div class="flex w-full justify-between">
-      <h1 class="text-4xl font-bold tracking-wide mb-6">Birds</h1>
+    <h1 class="text-4xl font-bold tracking-wide mb-6">Birds</h1>
 
-      <div>Birds</div>
-    </div>
+    <p>Birds</p>
   </Container>
 </template>
 

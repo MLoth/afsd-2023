@@ -5,6 +5,10 @@
       Create an account and keep track of your birds.
     </p>
 
+    <div v-if="error">
+      <p class="text-red-600">{{ error.message }}</p>
+    </div>
+
     <div class="mt-6">
       <label
         for="nickname"
@@ -18,14 +22,6 @@
         id="nickname"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:ring-2 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 focus-visible:border-blue-500 focus-visible:ring-blue-400"
       />
-      <!-- class={`mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none  focus-visible:ring-2  dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 ${
-            dirty && newUser.nickname === ''
-              ? 'border-red-600 outline-red-400 focus-visible:border-red-500 focus-visible:ring-red-500'
-              : 'focus-visible:border-blue-500 focus-visible:ring-blue-400'
-          }`} -->
-      <!-- {dirty && newUser.nickname === '' && (
-      <p class="mt-1 text-sm text-red-600">Please fill in a nickname.</p>
-      )} -->
     </div>
 
     <div class="mt-6">
@@ -40,6 +36,7 @@
         name="email"
         id="email"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
+        v-model="newUser.email"
       />
     </div>
 
@@ -73,3 +70,36 @@
     </div>
   </form>
 </template>
+
+<script lang="ts">
+import { ref } from 'vue'
+import { type AuthError } from 'firebase/auth'
+
+import useFirebase from '@/composables/useFirebase'
+
+export default {
+  script() {
+    // Composables
+    const { register } = useFirebase()
+
+    const newUser = ref({
+      name: '',
+      password: '',
+      email: '',
+    })
+    const error = ref<AuthError | null>(null)
+
+    const handleRegister = () => {
+      register(newUser.value.name, newUser.value.email, newUser.value.password).catch((err) => {
+        error.value = err
+      })
+    }
+
+    return {
+      newUser,
+      error,
+
+      handleRegister,
+    }
+  },
+}

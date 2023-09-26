@@ -1,8 +1,13 @@
-import { Module } from '@nestjs/common';
-import { BirdsService } from './birds.service';
-import { BirdsResolver } from './birds.resolver';
+import { Module } from '@nestjs/common'
+import { BirdsService } from './birds.service'
+import { BirdsResolver } from './birds.resolver'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Bird } from './entities/bird.entity'
 
 @Module({
-  providers: [BirdsResolver, BirdsService]
+  imports: [TypeOrmModule.forFeature([Bird])],
+  providers: [BirdsResolver, BirdsService],
+
+  //exports: [BirdsService],
 })
 export class BirdsModule {}

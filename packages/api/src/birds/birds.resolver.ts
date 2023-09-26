@@ -15,21 +15,21 @@ export class BirdsResolver {
 
   @Query(() => [Bird], { name: 'birds' })
   findAll() {
-    return [
-      {
-        id: '1',
-        name: 'Duif',
-        fullname: 'Duif',
-        category: 'Roekoes',
-        url: 'test',
-        observations: 1,
-        description: 'test',
-        active: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]
-    //return this.birdsService.findAll();
+    // return [
+    //   {
+    //     id: '1',
+    //     name: 'Duif',
+    //     fullname: 'Duif',
+    //     category: 'Roekoes',
+    //     url: 'test',
+    //     observations: 1,
+    //     description: 'test',
+    //     active: true,
+    //     createdAt: new Date(),
+    //     updatedAt: new Date(),
+    //   },
+    // ]
+    return this.birdsService.findAll()
   }
 
   @Query(() => Bird, { name: 'bird' })

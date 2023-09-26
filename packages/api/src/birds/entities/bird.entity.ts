@@ -1,16 +1,22 @@
 import { ObjectType, Field, Int, ID } from '@nestjs/graphql'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 
-@ObjectType()
+@Entity() // Database link - Typeorm
+@ObjectType() // Graphql
 export class Bird {
-  @Field(() => ID)
+  @ObjectIdColumn() // Database link - Typeorm
+  @Field(() => ID) // Graphql
   id: string
 
-  @Field()
+  @Column() // Database link - Typeorm
+  @Field() // Graphql
   name: string
 
-  @Field()
+  @Column() // Database link - Typeorm
+  @Field() // Graphql
   fullname: string
 
-  @Field()
+  @Column() // Database link - Typeorm
+  @Field() // Graphql
   category: string
 }

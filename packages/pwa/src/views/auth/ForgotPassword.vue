@@ -9,6 +9,18 @@
       <p class="text-red-600">{{ error.message }}</p>
     </div>
 
+    <div v-if="sendEmail">
+      <div
+        class="flex justify-between bg-green-600 text-white px-6 py-3 rounded-lg"
+      >
+        <p class="">Email has been send.</p>
+
+        <button @click="sendEmail = false">
+          <X />
+        </button>
+      </div>
+    </div>
+
     <div class="mt-6">
       <label
         for="email"
@@ -21,6 +33,7 @@
         name="email"
         id="email"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
+        v-model="email"
       />
     </div>
 
@@ -45,24 +58,29 @@ import { ref } from 'vue'
 import { type AuthError } from 'firebase/auth'
 
 import useFirebase from '@/composables/useFirebase'
+import { X } from 'lucide-vue-next'
 
 export default {
-  script() {
+  components: { X },
+
+  setup() {
     // Composables
     const { resetPassword } = useFirebase()
-
     const email = ref<string>('')
     const error = ref<AuthError | null>(null)
+    const sendEmail = ref<boolean>(false)
 
     const handleResetPassword = () => {
       resetPassword(email.value).then(() => {
         // TODO: show notification
+        sendEmail.value = true
       })
     }
 
     return {
       email,
       error,
+      sendEmail,
 
       handleResetPassword,
     }

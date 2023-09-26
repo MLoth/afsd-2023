@@ -5,5 +5,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   await app.listen(3000)
   console.info(`Server is running on: ${await app.getUrl()}`)
+  console.info(`Graphql is running on: ${await app.getUrl()}/graphql`)
 }
 bootstrap()

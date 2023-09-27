@@ -68,7 +68,7 @@ export class ObservationsResolver {
     return this.observationsService.remove(id)
   }
 
-  // Resolve fields
+  // // Resolve fields
   @ResolveField()
   bird(@Parent() o: Observation): Promise<Bird> {
     return this.birdsService.findOneById(o.birdId.toString())

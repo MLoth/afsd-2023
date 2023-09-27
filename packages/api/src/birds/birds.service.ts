@@ -20,7 +20,7 @@ export class BirdsService {
     const obj = new ObjectId(id)
     console.log(obj)
     // @ts-ignore
-    return this.birdRepository.findOne({ _id: new ObjectId(id) } )
+    return this.birdRepository.findOne({ _id: new ObjectId(id) })
   }
 
   findOneByName(name: string): Promise<Bird> {

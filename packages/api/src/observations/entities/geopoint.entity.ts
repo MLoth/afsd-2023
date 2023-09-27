@@ -15,7 +15,7 @@ export class GeoPoint implements Point {
   @ArrayMaxSize(2)
   @ArrayMinSize(2)
   @ArrayNotEmpty()
-  @Field(() => [Number])
+  @Field(() => [Number], { nullable: true })
   coordinates: number[]
 
   @IsNotEmpty()

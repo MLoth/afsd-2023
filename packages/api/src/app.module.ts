@@ -14,6 +14,7 @@ import { LocationsModule } from './locations/locations.module'
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      
     }),
 
     TypeOrmModule.forRoot({

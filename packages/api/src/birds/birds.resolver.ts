@@ -23,7 +23,7 @@ export class BirdsResolver {
     return this.birdsService.findOneById(id)
   }
 
-  @Query(() => [Bird], { name: 'findBirdsBySearchString' })
+  @Query(() => [Bird], { name: 'findBirdsBySearchString', nullable: true })
   findBirdsBySearchString(@Args('searchString') searchString: string) {
     return this.birdsService.findBirdsBySearchString(searchString)
   }

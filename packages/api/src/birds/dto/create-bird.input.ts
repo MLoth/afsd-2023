@@ -1,22 +1,31 @@
-import { InputType, Int, Field } from '@nestjs/graphql'
+import { InputType, Field } from '@nestjs/graphql'
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator'
 
-@InputType() // graphql
+@InputType()
 export class CreateBirdInput {
-  @Field() //graphql
+  @IsString()
+  @IsNotEmpty()
+  @Field()
   name: string
 
-  @Field() //graphql
+  @IsString()
+  @Field()
   fullname: string
 
-  @Field() //graphql
+  @IsString()
+  @Field()
   category: string
 
-  @Field() //graphql
+  @IsUrl()
+  @Field()
   url: string
 
-  @Field({ defaultValue: 0 }) //graphql
+  @IsInt()
+  @Field({ defaultValue: 0 }) //<- default value when not provided
   observations: number
 
-  @Field({ nullable: true }) //graphql
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
   description?: string
 }

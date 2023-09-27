@@ -1,49 +1,37 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
-import { BirdsService } from './birds.service'
-import { Bird } from './entities/bird.entity'
-import { CreateBirdInput } from './dto/create-bird.input'
-import { UpdateBirdInput } from './dto/update-bird.input'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-@Resolver(() => Bird)
+import { Bird } from './entities/bird.entity'
+import { BirdsService } from './birds.service'
+import { CreateBirdInput } from './dto/create-bird.input'
+
+@Resolver()
 export class BirdsResolver {
   constructor(private readonly birdsService: BirdsService) {}
 
-  @Mutation(() => Bird)
-  createBird(@Args('createBirdInput') createBirdInput: CreateBirdInput) {
-    return this.birdsService.create(createBirdInput)
-  }
-
   @Query(() => [Bird], { name: 'birds' })
-  findAll() {
-    // return [
-    //   {
-    //     id: '1',
-    //     name: 'Duif',
-    //     fullname: 'Duif',
-    //     category: 'Roekoes',
-    //     url: 'test',
-    //     observations: 1,
-    //     description: 'test',
-    //     active: true,
-    //     createdAt: new Date(),
-    //     updatedAt: new Date(),
-    //   },
-    // ]
+  getBirds() {
     return this.birdsService.findAll()
   }
 
-  @Query(() => Bird, { name: 'bird' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.birdsService.findOne(id)
+  @Query(() => Bird, { name: 'bird', nullable: true }) //<- nullable: true, because we want to return null if no bird is found
+  getBirdByName(@Args('name') name: string): Promise<Bird> {
+    return this.birdsService.findOneByName(name)
   }
 
-  @Mutation(() => Bird)
-  updateBird(@Args('updateBirdInput') updateBirdInput: UpdateBirdInput) {
-    return this.birdsService.update(updateBirdInput.id, updateBirdInput)
+  @Query(() => Bird, { name: 'findBirdById', nullable: true }) //<- nullable: true, because we want to return null if no bird is found
+  getBirdById(@Args('id') id: string): Promise<Bird> {
+    return this.birdsService.findOneById(id)
   }
 
-  @Mutation(() => Bird)
-  removeBird(@Args('id', { type: () => Int }) id: number) {
-    return this.birdsService.remove(id)
+  @Query(() => [Bird], { name: 'findBirdsBySearchString' })
+  findBirdsBySearchString(@Args('searchString') searchString: string) {
+    return this.birdsService.findBirdsBySearchString(searchString)
+  }
+
+  @Mutation(() => Bird, { description: 'Create a bird using the DTO.' })
+  createBird(
+    @Args('createBirdInput') createBirdInput: CreateBirdInput,
+  ): Promise<Bird> {
+    return this.birdsService.create(createBirdInput)
   }
 }

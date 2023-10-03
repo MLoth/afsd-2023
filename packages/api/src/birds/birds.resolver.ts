@@ -3,11 +3,14 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Bird } from './entities/bird.entity'
 import { BirdsService } from './birds.service'
 import { CreateBirdInput } from './dto/create-bird.input'
+import { UseGuards } from '@nestjs/common'
+import { FirebaseGuard } from 'src/authentication/guards/firebase.guard'
 
 @Resolver()
 export class BirdsResolver {
   constructor(private readonly birdsService: BirdsService) {}
 
+  @UseGuards(FirebaseGuard)
   @Query(() => [Bird], { name: 'birds' })
   getBirds() {
     return this.birdsService.findAll()

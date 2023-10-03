@@ -8,13 +8,16 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { SeedModule } from './seed/seed.module'
 import { ObservationsModule } from './observations/observations.module'
 import { LocationsModule } from './locations/locations.module'
+import { AuthenticationModule } from './authentication/authentication.module'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
-      
     }),
 
     TypeOrmModule.forRoot({
@@ -30,6 +33,7 @@ import { LocationsModule } from './locations/locations.module'
     SeedModule,
     ObservationsModule,
     LocationsModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

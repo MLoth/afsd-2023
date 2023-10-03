@@ -16,3 +16,20 @@ export const ALL_BIRDS = gql`
     }
   }
 `
+
+export const FIND_BIRDS_BY_SEARCH_STRING = gql`
+  query findBirdsBySearchString($searchString: String!) {
+    findBirdsBySearchString(searchString: $searchString) {
+      __typename
+      id
+      name
+      fullname
+      category
+      url
+      observations
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`

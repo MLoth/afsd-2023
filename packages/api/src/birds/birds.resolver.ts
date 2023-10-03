@@ -12,11 +12,10 @@ import { UserRecord } from 'firebase-admin/auth'
 export class BirdsResolver {
   constructor(private readonly birdsService: BirdsService) {}
 
-  @UseGuards(FirebaseGuard)
+  // @UseGuards(FirebaseGuard)
   @Query(() => [Bird], { name: 'birds' })
-  getBirds(@FirebaseUser() currentUser: UserRecord) {
-    console.log(currentUser)
-
+  getBirds() {
+    // @FirebaseUser() currentUser: UserRecord
     return this.birdsService.findAll()
   }
 

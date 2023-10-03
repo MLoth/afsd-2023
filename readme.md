@@ -1,3 +1,13 @@
+# env files
+## API
+Use firebase > Project settings > Service Accounts > Generate new private key
+```env
+GOOGLE_APPLICATION_CREDENTIALS=path-to-firebase-adminsdk-on-the-harddisk.json
+```
+## PWA
+Use firebase > Project settings > General > SDK setup and configuration > Config, and convert manual to a env syntax
+```env
+```
 # how to seed 
 - Do first a seeding of the birds, 
 - The observations rely on the birds,

@@ -33,3 +33,17 @@ export const FIND_BIRDS_BY_SEARCH_STRING = gql`
     }
   }
 `
+
+export const GET_BIRD_BY_NAME = gql`
+  query bird($name: String!) {
+    bird(name: $name) {
+      id
+      name
+      fullname
+      description
+      category
+      url
+      observations
+    }
+  }
+`

@@ -5,6 +5,8 @@ import { BirdsService } from './birds.service'
 import { CreateBirdInput } from './dto/create-bird.input'
 import { UseGuards } from '@nestjs/common'
 import { FirebaseGuard } from 'src/authentication/guards/firebase.guard'
+import { FirebaseUser } from 'src/authentication/decorators/user.decorator'
+import { UserRecord } from 'firebase-admin/auth'
 
 @Resolver()
 export class BirdsResolver {
@@ -12,7 +14,9 @@ export class BirdsResolver {
 
   @UseGuards(FirebaseGuard)
   @Query(() => [Bird], { name: 'birds' })
-  getBirds() {
+  getBirds(@FirebaseUser() currentUser: UserRecord) {
+    console.log(currentUser)
+
     return this.birdsService.findAll()
   }
 

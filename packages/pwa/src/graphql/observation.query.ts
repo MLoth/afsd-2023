@@ -51,3 +51,18 @@ export const ALL_OBSERVATIONS = gql`
     }
   }
 `
+
+export const OBSERVATION_INPUT = gql`
+  query observationInput {
+    birds {
+      id
+      name
+      fullname
+    }
+
+    locations {
+      id
+      name
+    }
+  }
+`

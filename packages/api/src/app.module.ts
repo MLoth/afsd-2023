@@ -6,12 +6,15 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { BirdsModule } from './birds/birds.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { SeedModule } from './seed/seed.module'
+import { ObservationsModule } from './observations/observations.module'
+import { LocationsModule } from './locations/locations.module'
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      
     }),
 
     TypeOrmModule.forRoot({
@@ -24,8 +27,9 @@ import { SeedModule } from './seed/seed.module'
     }),
 
     BirdsModule,
-
     SeedModule,
+    ObservationsModule,
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

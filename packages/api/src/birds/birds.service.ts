@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { CreateBirdInput } from './dto/create-bird.input'
-import { UpdateBirdInput } from './dto/update-bird.input'
+import { Bird } from './entities/bird.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Bird } from './entities/bird.entity'
+import { ObjectId } from 'mongodb'
 
 @Injectable()
 export class BirdsService {
@@ -12,41 +12,58 @@ export class BirdsService {
     private readonly birdRepository: Repository<Bird>,
   ) {}
 
-  create(createBirdInput: CreateBirdInput) {
+  findAll(): Promise<Bird[]> {
+    return this.birdRepository.find()
+  }
+
+  findOneById(id: string): Promise<Bird> {
+    const obj = new ObjectId(id)
+    console.log(obj)
+    // @ts-ignore
+    return this.birdRepository.findOne({ _id: new ObjectId(id) })
+  }
+
+  findOneByName(name: string): Promise<Bird> {
+    return this.birdRepository.findOne({ where: { name } })
+  }
+
+  findBirdsByCategory(category: string): Promise<Bird[]> {
+    return this.birdRepository.find({ where: { category } })
+  }
+
+  findBirdsBySearchString(searchString: string): Promise<Bird[]> {
+    return this.birdRepository.find({
+      // @ts-ignore
+      name: { $regex: searchString, $options: 'i' },
+    })
+  }
+
+  create(createBirdInput: CreateBirdInput): Promise<Bird> {
     const b = new Bird()
     b.name = createBirdInput.name
     b.fullname = createBirdInput.fullname
     b.category = createBirdInput.category
-    // b.url = createBirdInput.url
-    // b.observations = createBirdInput.observations
-    // b.description = createBirdInput.description
+    b.url = createBirdInput.url
+    b.observations = createBirdInput.observations
+    b.description = createBirdInput.description
 
     return this.birdRepository.save(b)
   }
 
-  findAll() {
-    return this.birdRepository.find()
+  async incrementObservationsCount(birdId: string): Promise<void> {
+    const bird = await this.findOneById(birdId)
+    this.birdRepository.update(
+      { id: birdId },
+      { observations: bird.observations + 1 },
+    )
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bird`
-  }
-
-  update(id: number, updateBirdInput: UpdateBirdInput) {
-    return `This action updates a #${id} bird`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} bird`
-  }
-
-  //logica for seeding
-
-  saveAll(birds: Bird[]) {
+  // Function for seeding
+  saveAll(birds: Bird[]): Promise<Bird[]> {
     return this.birdRepository.save(birds)
   }
 
-  truncate() {
+  truncate(): Promise<void> {
     return this.birdRepository.clear()
   }
 }

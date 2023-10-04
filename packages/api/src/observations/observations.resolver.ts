@@ -17,6 +17,8 @@ import { LocationsService } from 'src/locations/locations.service'
 import { Location } from 'src/locations/entities/location.entity'
 import { UseGuards } from '@nestjs/common'
 import { FirebaseGuard } from 'src/authentication/guards/firebase.guard'
+import { FirebaseUser } from 'src/authentication/decorators/user.decorator'
+import { UserRecord } from 'firebase-admin/auth'
 
 @Resolver(() => Observation)
 export class ObservationsResolver {
@@ -46,8 +48,9 @@ export class ObservationsResolver {
 
   @UseGuards(FirebaseGuard)
   @Query(() => [Observation], { name: 'observations' })
-  findAll() {
-    return this.observationsService.findAll()
+  findAll(@FirebaseUser() user: UserRecord) {
+    // TODO: check admin role
+    return this.observationsService.findAll(user.uid)
   }
 
   @Query(() => Observation, { name: 'observation' })
@@ -55,11 +58,11 @@ export class ObservationsResolver {
     return this.observationsService.findOne(id)
   }
 
-  @Mutation(() => Observation)
+  @Mutation(() => String)
   updateObservation(
     @Args('updateObservationInput')
     updateObservationInput: UpdateObservationInput,
-  ) {
+  ): string {
     return this.observationsService.update(
       updateObservationInput.id,
       updateObservationInput,

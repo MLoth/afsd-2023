@@ -53,8 +53,12 @@ export class ObservationsService {
     }
   }
 
-  findAll() {
-    return this.observationRepository.find()
+  findAll(uid?: string) {
+    if (uid) {
+      return this.observationRepository.find({
+        where: { userUid: uid },
+      })
+    } else return this.observationRepository.find()
   }
 
   findOne(id: string) {

@@ -34,7 +34,7 @@
           >
             <div class="flex items-center gap-6">
               <img
-                class="w-48"
+                class="max-w-48"
                 :src="`/birds/${bird.name}.webp`"
                 :alt="`Picture of ${bird.name}.`"
               />
@@ -61,7 +61,7 @@
           <div v-for="bird of result.birds" :key="bird.id">
             <div class="flex items-center gap-6">
               <img
-                class="w-48"
+                class="max-w-48"
                 :src="`/birds/${bird.name}.webp`"
                 :alt="`Picture of ${bird.name}.`"
               />

@@ -9,16 +9,16 @@
     <div v-if="loading">
       <p>Observations are loading.</p>
     </div>
-    <table v-if="result">
-      <tr>
+    <table class="w-full" v-if="result">
+      <tr class="text-left">
         <th>Location</th>
         <th>Bird name</th>
         <th>Time</th>
       </tr>
       <tr v-for="observation in result.observations">
-        <td>{{ observation.location.name }}</td>
-        <td>{{ observation.bird.name }}</td>
-        <td>{{ observation.createdAt }}</td>
+        <td class="py-3">{{ observation.location.name }}</td>
+        <td class="py-3">{{ observation.bird.name }}</td>
+        <td class="py-3">{{ observation.createdAt }}</td>
       </tr>
     </table>
   </Container>

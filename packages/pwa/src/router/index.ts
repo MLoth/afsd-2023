@@ -27,6 +27,11 @@ const router = createRouter({
       component: () => import('../views/observations/index.vue'),
       meta: { shouldBeAuthenticated: true },
     },
+    {
+      path: '/observations/add',
+      component: () => import('../views/observations/Add.vue'),
+      meta: { shouldBeAuthenticated: true },
+    },
 
     {
       path: '/account',

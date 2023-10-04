@@ -15,6 +15,8 @@ import { Bird } from 'src/birds/entities/bird.entity'
 import { BirdsService } from 'src/birds/birds.service'
 import { LocationsService } from 'src/locations/locations.service'
 import { Location } from 'src/locations/entities/location.entity'
+import { UseGuards } from '@nestjs/common'
+import { FirebaseGuard } from 'src/authentication/guards/firebase.guard'
 
 @Resolver(() => Observation)
 export class ObservationsResolver {
@@ -42,6 +44,7 @@ export class ObservationsResolver {
     }
   }
 
+  @UseGuards(FirebaseGuard)
   @Query(() => [Observation], { name: 'observations' })
   findAll() {
     return this.observationsService.findAll()

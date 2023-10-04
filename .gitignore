@@ -1,3 +1,5 @@
 **/node_modules/
 **/.env
 packages/api/credentials.json
+**/translations.json
+**/token.json

@@ -10,9 +10,11 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
     "@vue/apollo-composable": "^4.0.0-beta.11",
     "firebase": "^10.4.0",
     "geojson": "^0.5.0",
+    "googleapis": "^105.0.0",
     "lucide-vue-next": "^0.279.0",
     "mapbox-gl": "^2.15.0",
     "vue": "^3.3.4",

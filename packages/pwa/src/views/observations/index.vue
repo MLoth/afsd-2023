@@ -55,5 +55,5 @@ import { useQuery } from '@vue/apollo-composable'
 import { ALL_OBSERVATIONS } from '@/graphql/observation.query'
 import { Plus } from 'lucide-vue-next'
 
-const { error, result, loading } = useQuery(ALL_OBSERVATIONS)
+const { error, result, loading, refetch } = useQuery(ALL_OBSERVATIONS)
 </script>

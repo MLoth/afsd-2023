@@ -6,6 +6,7 @@ import AppFooter from './components/generic/AppFooter.vue'
 import AppHeader from './components/generic/AppHeader.vue'
 
 import useGraphql from './composables/useGraphql'
+import useLanguage from './composables/useLanguage'
 
 export default {
   components: {
@@ -15,12 +16,15 @@ export default {
 
   setup() {
     const { apolloClient } = useGraphql()
+    const { locale } = useLanguage()
 
     // Maak alles beschikbaar in de scope*
     provide(DefaultApolloClient, apolloClient)
     // * behalve in composables...
 
-    return {}
+    return {
+      locale,
+    }
   },
 }
 </script>
@@ -31,6 +35,8 @@ export default {
 
     <RouterView class="flex-1" />
 
+    {{ locale }}
+    {{ $t('hello') }}
     <AppFooter />
   </div>
 </template>

@@ -20,7 +20,22 @@
 
     <div v-if="error">{{ error }}</div>
 
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading">
+      <div
+        class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 grid-rows-auto gap-12"
+      >
+        <div v-for="skeleton in skeletons">
+          <div class="animate-pulse flex items-center gap-6">
+            <div class="w-48 h-48 bg-neutral-200 rounded"></div>
+            <div>
+              <div class="w-32 h-4 bg-neutral-200 rounded mb-2"></div>
+              <div class="w-16 h-3 bg-neutral-200 rounded mb-2"></div>
+              <div class="w-24 h-3 bg-neutral-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div v-else>
       <div
@@ -101,6 +116,7 @@ export default {
 
   setup() {
     const search = ref('')
+    const skeletons = ref<number[]>(new Array(9))
 
     const { result: defaultBirds, loading, error } = useQuery(ALL_BIRDS)
     const {
@@ -123,6 +139,7 @@ export default {
       loading,
       error,
       search,
+      skeletons,
     }
   },
 }

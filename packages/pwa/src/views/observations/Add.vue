@@ -1,14 +1,17 @@
 <template>
   <Container>
-    <h1 class="text-4xl font-bold tracking-wide mb-6">Observations</h1>
+    <h1 class="text-4xl font-bold tracking-wide mb-6">Add observation</h1>
 
     <form @submit.prevent="handleNewObservation">
-      <label class="block" for="birdId">
+      <label
+        class="text-md block font-semibold tracking-wider text-gray-700 dark:text-gray-200"
+        for="birdId"
+      >
         Bird
         <select
           v-model="observationInput.birdId"
           v-if="!inputLoading"
-          class="block"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 mb-3"
           name="birdId"
           id="birdId"
         >
@@ -19,12 +22,15 @@
         </select>
       </label>
 
-      <label class="block" for="locationId">
+      <label
+        class="text-md block font-semibold tracking-wider text-gray-700 dark:text-gray-200"
+        for="locationId"
+      >
         Location
         <select
           v-if="!inputLoading"
           v-model="observationInput.locationId"
-          class="block"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 mb-3"
           name="birdId"
           id="locationId"
         >
@@ -35,18 +41,24 @@
         </select>
       </label>
 
-      <label class="block" for="description">
+      <label
+        class="text-md block font-semibold tracking-wider text-gray-700 dark:text-gray-200"
+        for="description"
+      >
         Description
         <textarea
           v-model="observationInput.description"
-          class="block w-full"
+          class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 mb-3"
           name=""
           id="description"
           rows="10"
         ></textarea>
       </label>
 
-      <label class="block" for="">
+      <label
+        class="text-md block font-semibold tracking-wider text-gray-700 dark:text-gray-200"
+        for=""
+      >
         Point
         <div class="grid grid-cols-2 gap-3">
           <input

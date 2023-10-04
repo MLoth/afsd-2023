@@ -63,6 +63,10 @@ export const OBSERVATION_INPUT = gql`
     locations {
       id
       name
+      area {
+        coordinates
+        type
+      }
     }
   }
 `

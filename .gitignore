@@ -2,5 +2,5 @@
 **/.env
 
 packages/api/credentials.json
-packages/pwa/src/utils/translations.json
-packages/pwa/src/utils/token.json
+**/translations.json
+**/token.json

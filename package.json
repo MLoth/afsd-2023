@@ -2,7 +2,8 @@
   "name": "afsd-2023",
   "version": "0.0.0",
   "scripts": {
-    "dev": "todo"
+    "dev": "todo",
+    "translate:pwa": "npm run generate:translations -w pwa"
   },
   "repository": {
     "type": "git",

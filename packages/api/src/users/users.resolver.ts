@@ -3,14 +3,22 @@ import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
+import { UseGuards } from '@nestjs/common'
+import { FirebaseGuard } from 'src/authentication/guards/firebase.guard'
+import { UserRecord } from 'firebase-admin/auth'
+import { FirebaseUser } from 'src/authentication/decorators/user.decorator'
 
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(FirebaseGuard)
   @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput)
+  createUser(
+    @Args('createUserInput') createUserInput: CreateUserInput,
+    @FirebaseUser() user: UserRecord,
+  ) {
+    return this.usersService.create(user.uid, createUserInput)
   }
 
   @Query(() => [User], { name: 'users' })

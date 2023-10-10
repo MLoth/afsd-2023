@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql'
 import {
   Column,
   CreateDateColumn,
+  Entity,
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -11,6 +12,7 @@ export enum Role {
   USER = 'USER',
 }
 
+@Entity()
 @ObjectType()
 export class User {
   @ObjectIdColumn()

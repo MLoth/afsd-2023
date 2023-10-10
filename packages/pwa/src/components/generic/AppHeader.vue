@@ -7,7 +7,9 @@
       >
         <Logo class="h-10" />
 
-        <span class="text-2xl tracking-wider font-bold">Birds</span>
+        <span class="text-2xl tracking-wider font-bold">{{
+          $t('navigation.birds')
+        }}</span>
       </RouterLink>
 
       <nav>
@@ -18,7 +20,7 @@
               active-class="opacity-30"
               to="/"
             >
-              Home
+              {{ $t('navigation.home') }}
             </RouterLink>
           </li>
           <li>
@@ -27,7 +29,7 @@
               active-class="opacity-30"
               to="/birds"
             >
-              Birds
+              {{ $t('navigation.birds') }}
             </RouterLink>
           </li>
           <li>
@@ -36,7 +38,7 @@
               active-class="opacity-30"
               to="/observations"
             >
-              Observations
+              {{ $t('navigation.observations') }}
             </RouterLink>
           </li>
           <li>

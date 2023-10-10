@@ -59,7 +59,9 @@
                   <User2 class="h-8 object-cover" />
                 </div>
 
-                <p class="pr-1">{{ firebaseUser.displayName }}</p>
+                <p class="pr-1">
+                  {{ firebaseUser.displayName }} ({{ customUser?.role }})
+                </p>
               </div>
               <div v-else>
                 <p>Login</p>
@@ -79,6 +81,8 @@ import useFirebase from '@/composables/useFirebase'
 
 import Container from './Container.vue'
 import Logo from './Logo.vue'
+import useCustomUser from '@/composables/useCustomUser'
 
 const { firebaseUser } = useFirebase()
+const { customUser } = useCustomUser()
 </script>

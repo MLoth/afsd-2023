@@ -10,6 +10,7 @@ import { ObservationsModule } from './observations/observations.module'
 import { LocationsModule } from './locations/locations.module'
 import { AuthenticationModule } from './authentication/authentication.module'
 import { ConfigModule } from '@nestjs/config'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -29,11 +30,12 @@ import { ConfigModule } from '@nestjs/config'
       useUnifiedTopology: true, // Disable deprecated warnings
     }),
 
-    BirdsModule,
-    SeedModule,
-    ObservationsModule,
-    LocationsModule,
     AuthenticationModule,
+    BirdsModule,
+    LocationsModule,
+    ObservationsModule,
+    SeedModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

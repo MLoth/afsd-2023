@@ -116,6 +116,15 @@ async function generateTranslations(auth) {
       translations[locale][row[0]] = row[2]
     }
 
+    // Create enum with all the keys of translations
+    // const enumName = `${locale}Keys`
+    // const enumContent = `export enum ${enumName} {\n${Object.keys(
+    //   translations[locale],
+    // )
+    //   .map(key => `  ${key} = '${key}'`)
+    //   .join(',\n')}\n}`
+    // .d.ts
+
     await fs.writeFile(
       path.join(process.cwd(), `/src/locales/${locale}.json`),
       JSON.stringify(translations),

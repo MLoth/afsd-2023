@@ -1,4 +1,4 @@
-import { LngLatLike } from 'mapbox-gl'
+import { type LngLatLike } from 'mapbox-gl'
 import { type Polygon } from 'geojson'
 
 export interface MapProps {

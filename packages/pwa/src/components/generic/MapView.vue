@@ -5,7 +5,7 @@
 <script lang="ts">
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { LngLatLike } from 'mapbox-gl'
+import { type LngLatLike } from 'mapbox-gl'
 import { onMounted, ref, watch } from 'vue'
 import { type Polygon } from 'geojson'
 

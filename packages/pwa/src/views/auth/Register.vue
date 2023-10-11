@@ -104,6 +104,7 @@ export default {
       loading: addUserLoading,
       onDone: userCreated,
     } = useMutation<CustomUser>(ADD_USER)
+
     const handleRegister = () => {
       register(newUser.value.name, newUser.value.email, newUser.value.password)
         .then(() => {

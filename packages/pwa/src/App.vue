@@ -8,6 +8,7 @@ import AppHeader from './components/generic/AppHeader.vue'
 import useGraphql from './composables/useGraphql'
 import useLanguage from './composables/useLanguage'
 import { useI18n } from 'vue-i18n'
+import useCustomUser from './composables/useCustomUser'
 
 export default {
   components: {
@@ -19,12 +20,17 @@ export default {
     const { apolloClient } = useGraphql()
     const { setLocale } = useLanguage()
     const { locale } = useI18n()
+    const { customUser } = useCustomUser()
 
     // Maak alles beschikbaar in de scope*
     provide(DefaultApolloClient, apolloClient)
     // * behalve in composables...
 
-    setLocale(locale.value)
+    if (customUser.value?.locale) {
+      setLocale(customUser.value.locale)
+    } else {
+      setLocale(locale.value)
+    }
 
     return {}
   },

@@ -7,7 +7,10 @@ export const SUPPORTED_LOCALES: Record<string, string> = {
   es: 'Español',
 }
 
-export const DEFAULT_LOCALE = 'es'
+export const DEFAULT_LOCALE =
+  navigator.languages.find(locale =>
+    Object.keys(SUPPORTED_LOCALES).includes(locale),
+  ) ?? 'en'
 
 export const i18nOptions: I18nOptions = {
   locale: DEFAULT_LOCALE,

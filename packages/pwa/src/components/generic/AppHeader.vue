@@ -60,7 +60,7 @@
                 </div>
 
                 <p class="pr-1">
-                  {{ firebaseUser.displayName }} ({{ customUser?.role }})
+                  {{ firebaseUser.displayName }}
                 </p>
               </div>
               <div v-else>

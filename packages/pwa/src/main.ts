@@ -7,8 +7,8 @@ import App from './App.vue'
 import router from './bootstrap/router'
 
 import useFirebase from './composables/useFirebase'
-import { i18n } from './bootstrap/i18n'
 import useCustomUser from './composables/useCustomUser'
+import { i18n } from './bootstrap/i18n'
 
 const app = createApp(App)
 const { restoreUser, firebaseUser } = useFirebase()

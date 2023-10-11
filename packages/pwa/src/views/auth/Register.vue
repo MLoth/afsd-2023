@@ -85,6 +85,7 @@ import { ADD_USER } from '@/graphql/user.mutation'
 import { useI18n } from 'vue-i18n'
 import type { CustomUser } from '@/interfaces/custom.user.interface'
 import { Loader2 } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
@@ -92,6 +93,7 @@ export default {
     const { register } = useFirebase()
     const { locale } = useI18n()
     const { customUser } = useCustomUser()
+    const { push } = useRouter()
 
     const newUser = ref({
       name: '',
@@ -99,11 +101,9 @@ export default {
       email: '',
     })
     const error = ref<AuthError | null>(null)
-    const {
-      mutate: addUser,
-      loading: addUserLoading,
-      onDone: userCreated,
-    } = useMutation<CustomUser>(ADD_USER)
+
+    const { mutate: addUser, loading: addUserLoading } =
+      useMutation<CustomUser>(ADD_USER)
 
     const handleRegister = () => {
       register(newUser.value.name, newUser.value.email, newUser.value.password)
@@ -116,6 +116,7 @@ export default {
             if (!result?.data) throw new Error('Custom user creation failed.')
 
             customUser.value = result.data
+            push('/')
           })
         })
         .catch(err => {

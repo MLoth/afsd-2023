@@ -68,12 +68,14 @@ import { type AuthError } from 'firebase/auth'
 
 import useFirebase from '@/composables/useFirebase'
 import { useRouter } from 'vue-router'
+import useCustomUser from '@/composables/useCustomUser'
 
 export default {
   setup() {
     // Composables
     const { login, firebaseUser } = useFirebase()
     const { push } = useRouter()
+    const { restoreCustomUser } = useCustomUser()
 
     // Logic
     const loginCredentials = ref({
@@ -85,7 +87,9 @@ export default {
     const handleLogin = () => {
       login(loginCredentials.value.email, loginCredentials.value.password)
         .then(() => {
-          push('/')
+          restoreCustomUser().then(() => {
+            push('/')
+          })
         })
         .catch((err: AuthError) => {
           error.value = err

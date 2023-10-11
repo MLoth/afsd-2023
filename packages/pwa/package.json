@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "generate:translations": "npx tsx ./src/utils/sheet.ts"
+    "generate:translations": "npx tsx ./src/utils/sheet.ts",
+    "run:pwa": "npm run build && npx serve dist"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",

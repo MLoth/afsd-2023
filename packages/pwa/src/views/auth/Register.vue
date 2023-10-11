@@ -1,5 +1,5 @@
 <template>
-  <form @submit="" class="w-full">
+  <form @submit.prevent="handleRegister" class="w-full">
     <h1 class="text-4xl font-bold tracking-wider">Register</h1>
     <p class="text-neutral-500 mb-4">
       Create an account and keep track of your birds.
@@ -52,13 +52,16 @@
         name="password"
         id="password"
         class="mt-1 block w-full rounded-md border-2 border-gray-300 p-2 focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50"
+        v-model="newUser.password"
       />
     </div>
 
     <button
-      class="mt-6 w-full rounded-md border-2 border-blue-500 bg-blue-500 py-2 px-4 font-semibold text-white hover:bg-blue-600 focus:outline-none focus-visible:border-blue-300 focus-visible:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-300"
+      :disabled="addUserLoading"
+      class="mt-6 w-full rounded-md border-2 border-blue-500 bg-blue-500 py-2 px-4 font-semibold text-white hover:bg-blue-600 focus:outline-none focus-visible:border-blue-300 focus-visible:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-300 flex items-center justify-center disabled:bg-blue-200"
     >
-      Register
+      <template v-if="!addUserLoading">Register</template>
+      <Loader2 v-else class="animate-spin" />
     </button>
     <div class="flex justify-center">
       <RouterLink
@@ -76,11 +79,19 @@ import { ref } from 'vue'
 import { type AuthError } from 'firebase/auth'
 
 import useFirebase from '@/composables/useFirebase'
+import useCustomUser from '@/composables/useCustomUser'
+import { useMutation } from '@vue/apollo-composable'
+import { ADD_USER } from '@/graphql/user.mutation'
+import { useI18n } from 'vue-i18n'
+import type { CustomUser } from '@/interfaces/custom.user.interface'
+import { Loader2 } from 'lucide-vue-next'
 
 export default {
-  script() {
+  setup() {
     // Composables
     const { register } = useFirebase()
+    const { locale } = useI18n()
+    const { customUser } = useCustomUser()
 
     const newUser = ref({
       name: '',
@@ -88,18 +99,35 @@ export default {
       email: '',
     })
     const error = ref<AuthError | null>(null)
-
+    const {
+      mutate: addUser,
+      loading: addUserLoading,
+      onDone: userCreated,
+    } = useMutation<CustomUser>(ADD_USER)
     const handleRegister = () => {
-      register(newUser.value.name, newUser.value.email, newUser.value.password).catch((err) => {
-        error.value = err
-      })
-    }
+      register(newUser.value.name, newUser.value.email, newUser.value.password)
+        .then(() => {
+          addUser({
+            createUserInput: {
+              locale: locale.value,
+            },
+          }).then(result => {
+            if (!result?.data) throw new Error('Custom user creation failed.')
 
+            customUser.value = result.data
+          })
+        })
+        .catch(err => {
+          error.value = err
+        })
+    }
     return {
       newUser,
       error,
-
+      addUserLoading,
       handleRegister,
     }
   },
+  components: { Loader2 },
 }
+</script>

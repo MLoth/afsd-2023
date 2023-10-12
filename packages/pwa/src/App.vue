@@ -9,6 +9,7 @@ import useGraphql from './composables/useGraphql'
 import useLanguage from './composables/useLanguage'
 import { useI18n } from 'vue-i18n'
 import useCustomUser from './composables/useCustomUser'
+import { SUPPORTED_LOCALES } from './bootstrap/i18n'
 
 export default {
   components: {
@@ -29,7 +30,11 @@ export default {
     if (customUser.value?.locale) {
       setLocale(customUser.value.locale)
     } else {
-      setLocale(locale.value)
+      setLocale(
+        navigator.languages.find(locale =>
+          Object.keys(SUPPORTED_LOCALES).includes(locale),
+        ) ?? locale.value,
+      )
     }
 
     return {}

@@ -17,8 +17,8 @@ services:
     build:
       context: ../.
       dockerfile: packages/api/Dockerfile
-    # env_file:
-    #   - ./../packages/api/.env.production.local
+    env_file:
+      - ./../packages/api/.env.production.local
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/my-google-secret
     ports:

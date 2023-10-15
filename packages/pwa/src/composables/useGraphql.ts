@@ -9,7 +9,8 @@ import useFirebase from './useFirebase'
 const { firebaseUser } = useFirebase()
 
 const httpLink = createHttpLink({
-  uri: 'http://[::1]:3001/graphql/',
+  // uri: 'http://[::1]:3001/graphql/',
+  uri: import.meta.env.VITE_BACKEND_URL,
   credentials: 'same-origin',
 })
 

@@ -1,0 +1,45 @@
+version: '3.1'
+name: api-birds-production2
+
+services:
+  mongodb:
+    image: mongo
+    restart: on-failure:5 # On error, try to restart for a maximum of 5 times
+    ports:
+      - 27031:27017
+    environment:
+      MONGO_INITDB_DATABASE: api
+    volumes:
+      - dbvolumebirdsproduction:/data/db
+      
+
+  api:
+    build:
+      context: ../.
+      dockerfile: packages/api/Dockerfile
+    # env_file:
+    #   - ./../packages/api/.env.production.local
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/my-google-secret
+    ports:
+      - 3001:8008
+    secrets:
+      - my-google-secret  
+
+
+
+  pwa:
+    build:
+      context: ../.
+      dockerfile: packages/pwa/Dockerfile
+    ports:
+      - 8081:80
+
+
+
+volumes:
+  dbvolumebirdsproduction:
+
+secrets:
+  my-google-secret:
+    file: /Users/christophelaprudence/Downloads/adv-full-stack-2022-test-firebase-adminsdk-y3nsz-7a558874c8.json

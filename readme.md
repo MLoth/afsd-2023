@@ -1,6 +1,7 @@
-# Credentials from Google 
+# Credentials from Google
+
 - Use Firebase for authentications.
-- For i18n:  [Google](https://console.cloud.google.com/apis/credentials/) (create credentials > Create Oauth client Id > Choose for : Desktop App). Save it as `credentials.json` in `packages/pwa/src/utils/`
+- For i18n: [Google](https://console.cloud.google.com/apis/credentials/) (create credentials > Create Oauth client Id > Choose for : Desktop App). Save it as `credentials.json` in `packages/pwa/src/utils/`
   - Run `npx tsx src/utils/sheet.ts` in the terminal
 
 # env files
@@ -24,6 +25,7 @@ VITE_projectId=""
 VITE_storageBucket=""
 VITE_messagingSenderId=""
 VITE_appId=""
+VITE_MAPBOX_TOKEN=""
 
 ```
 

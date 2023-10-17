@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common'
 import { CreateBirdInput } from './dto/create-bird.input'
 import { Bird } from './entities/bird.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { MongoRepository } from 'typeorm'
 import { ObjectId } from 'mongodb'
 
 @Injectable()
 export class BirdsService {
   constructor(
     @InjectRepository(Bird)
-    private readonly birdRepository: Repository<Bird>,
+    private readonly birdRepository: MongoRepository<Bird>,
   ) {}
 
   findAll(): Promise<Bird[]> {
@@ -33,7 +33,6 @@ export class BirdsService {
 
   findBirdsBySearchString(searchString: string): Promise<Bird[]> {
     return this.birdRepository.find({
-      // @ts-ignore
       name: { $regex: searchString, $options: 'i' },
     })
   }

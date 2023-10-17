@@ -11,7 +11,14 @@
 Use firebase > Project settings > Service Accounts > Generate new private key
 
 ```env
-GOOGLE_APPLICATION_CREDENTIALS=path-to-firebase-adminsdk-on-the-harddisk.json
+GOOGLE_APPLICATION_CREDENTIALS=path-to-firebase-adminsdk-on-the-harddisk.json #only in dev, production -> secret!
+
+URL_FRONTEND=
+DB_HOST=
+DB_PORT=
+DB_NAME=
+
+NODE_ENV=
 ```
 
 ## PWA
@@ -26,7 +33,7 @@ VITE_storageBucket=""
 VITE_messagingSenderId=""
 VITE_appId=""
 VITE_MAPBOX_TOKEN=""
-
+VITE_BACKEND_URL=""
 ```
 
 # how to seed

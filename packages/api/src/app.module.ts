@@ -19,13 +19,14 @@ import { UsersModule } from './users/users.module'
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      playground: process.env.NODE_ENV == 'production' ? false : true,
     }),
 
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb://localhost:27031/api',
+      url: `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, // DOCKER
       entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: true, // Careful with this in production
+      synchronize: process.env.NODE_ENV == 'production' ? false : true, // Careful with this in production
       useNewUrlParser: true,
       useUnifiedTopology: true, // Disable deprecated warnings
     }),

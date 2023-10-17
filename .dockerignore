@@ -3,7 +3,7 @@
 #Ignore all env files api and pwa
 **/.env*
 #This is the only env file needed to build via vite
-!**/pwa/.env.production.local 
+!**/pwa/.env.production.local
 **/.git
 **/.DS_Store
 

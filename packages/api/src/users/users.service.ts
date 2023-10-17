@@ -3,13 +3,13 @@ import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Role, User } from './entities/user.entity'
-import { Repository } from 'typeorm'
+import { MongoRepository } from 'typeorm'
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: MongoRepository<User>,
   ) {}
 
   create(uid: string, createUserInput: CreateUserInput) {
@@ -32,8 +32,17 @@ export class UsersService {
     return this.userRepository.findOneByOrFail({ uid })
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return new Error(`This action updates a #${id} user`)
+  async update(uid: string, updateUserInput: UpdateUserInput) {
+    const currentUser = await this.findOneByUid(uid)
+
+    const updateUser = new User()
+    updateUser.id = currentUser.id
+    updateUser.uid = uid
+    updateUser.role = currentUser.role
+    updateUser.locale = updateUserInput.locale ?? currentUser.locale
+    updateUser.createdAt = currentUser.createdAt
+    updateUser.updatedAt = new Date()
+    return this.userRepository.save(updateUser)
   }
 
   remove(id: string) {

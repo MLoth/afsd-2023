@@ -40,9 +40,13 @@ export class UsersResolver {
     return this.usersService.findOneByUid(id)
   }
 
+  @UseGuards(FirebaseGuard)
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput)
+  updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @FirebaseUser() user: UserRecord,
+  ) {
+    return this.usersService.update(user.uid, updateUserInput)
   }
 
   @Mutation(() => User)

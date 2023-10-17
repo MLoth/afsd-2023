@@ -95,7 +95,7 @@ export default {
     const { register } = useFirebase()
     const { locale } = useI18n()
     const { customUser } = useCustomUser()
-    const { push } = useRouter()
+    const { replace } = useRouter()
 
     const newUser = ref({
       name: '',
@@ -118,7 +118,7 @@ export default {
             if (!result?.data) throw new Error('Custom user creation failed.')
 
             customUser.value = result.data
-            push('/')
+            replace('/')
           })
         })
         .catch(err => {

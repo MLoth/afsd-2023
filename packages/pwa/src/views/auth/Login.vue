@@ -74,7 +74,7 @@ export default {
   setup() {
     // Composables
     const { login, firebaseUser } = useFirebase()
-    const { push } = useRouter()
+    const { replace } = useRouter()
     const { restoreCustomUser } = useCustomUser()
 
     // Logic
@@ -88,7 +88,7 @@ export default {
       login(loginCredentials.value.email, loginCredentials.value.password)
         .then(() => {
           restoreCustomUser().then(() => {
-            push('/')
+            replace('/')
           })
         })
         .catch((err: AuthError) => {

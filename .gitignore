@@ -4,3 +4,4 @@
 packages/api/credentials.json
 **/translations.json
 **/token.json
+packages/api/.env.production.local

@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { BirdsResolver } from './birds.resolver'
-import { BirdsService } from './birds.service'
 import { birdStub } from './stubs/birds.stub'
 import { CreateBirdInput } from './dto/create-bird.input'
 import { Bird } from './entities/bird.entity'
+
+import { BirdsService } from './birds.service'
+jest.mock('./birds.service')
 
 describe('BirdsResolver', () => {
   let resolver: BirdsResolver
@@ -12,20 +14,20 @@ describe('BirdsResolver', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         BirdsResolver,
-        // BirdsService
-        {
-          provide: BirdsService,
-          useValue: {
-            findAll: jest.fn().mockResolvedValue(birdStub()),
-            findOneById: jest.fn().mockResolvedValue(birdStub()),
-            findOneByName: jest.fn().mockResolvedValue(birdStub()),
-            findBirdsByCategory: jest.fn().mockResolvedValue([birdStub()]),
-            findBirdsBySearchString: jest.fn().mockResolvedValue([birdStub()]),
-            create: jest.fn().mockResolvedValue(birdStub()),
-            incrementObservationsCount: jest.fn(),
-            saveAll: jest.fn().mockResolvedValue([birdStub()]),
-          },
-        },
+        BirdsService,
+        // {
+        //   provide: BirdsService,
+        //   useValue: {
+        //     findAll: jest.fn().mockResolvedValue(birdStub()),
+        //     findOneById: jest.fn().mockResolvedValue(birdStub()),
+        //     findOneByName: jest.fn().mockResolvedValue(birdStub()),
+        //     findBirdsByCategory: jest.fn().mockResolvedValue([birdStub()]),
+        //     findBirdsBySearchString: jest.fn().mockResolvedValue([birdStub()]),
+        //     create: jest.fn().mockResolvedValue(birdStub()),
+        //     incrementObservationsCount: jest.fn(),
+        //     saveAll: jest.fn().mockResolvedValue([birdStub()]),
+        //   },
+        // },
       ],
     }).compile()
 

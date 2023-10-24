@@ -17,8 +17,10 @@ export class BirdsService {
   }
 
   findOneById(id: string): Promise<Bird> {
+    // check if id is a valid ObjectId
+    if (!ObjectId.isValid(id)) throw new Error('Invalid ObjectId')
+
     const obj = new ObjectId(id)
-    console.log(obj)
     // @ts-ignore
     return this.birdRepository.findOne({ _id: new ObjectId(id) })
   }

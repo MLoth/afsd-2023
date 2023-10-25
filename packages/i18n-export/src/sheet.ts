@@ -1,23 +1,31 @@
-// @ts-nocheck
-
 import { promises as fs } from 'fs'
 import path from 'path'
 import process from 'process'
 import { authenticate } from '@google-cloud/local-auth'
 import { google } from 'googleapis'
 
-import { SUPPORTED_LOCALES } from '../bootstrap/i18n'
+// Meh...
+// TODO: handle with Lerna? -> monorepo approach
+import { SUPPORTED_LOCALES } from '../../../packages/pwa/src/bootstrap/i18n'
+
+const pathArgument = process.argv[2]
+let localePath = ''
+
+if (!pathArgument) {
+  throw new Error(
+    'There is no output path given. Please provide it: "path:packages/pwa/src/locales/"',
+  )
+} else {
+  localePath = pathArgument.split(':')[1]
+}
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = path.join(process.cwd(), '/src/utils/token.json')
-const CREDENTIALS_PATH = path.join(
-  process.cwd(),
-  '/src/utils/translations.json',
-)
+const TOKEN_PATH = path.join(process.cwd(), './token.json')
+const CREDENTIALS_PATH = path.join(process.cwd(), './translations.json')
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -26,7 +34,9 @@ const CREDENTIALS_PATH = path.join(
  */
 async function loadSavedCredentialsIfExist() {
   try {
-    const content = await fs.readFile(TOKEN_PATH)
+    const content = await fs.readFile(TOKEN_PATH, {
+      encoding: 'utf8',
+    })
     const credentials = JSON.parse(content)
     return google.auth.fromJSON(credentials)
   } catch (err) {
@@ -41,7 +51,7 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 async function saveCredentials(client) {
-  const content = await fs.readFile(CREDENTIALS_PATH)
+  const content = await fs.readFile(CREDENTIALS_PATH, { encoding: 'utf8' })
   const keys = JSON.parse(content)
   const key = keys.installed || keys.web
   const payload = JSON.stringify({
@@ -58,10 +68,9 @@ async function saveCredentials(client) {
  *
  */
 async function authorize() {
-  let client = await loadSavedCredentialsIfExist()
-  if (client) {
-    return client
-  }
+  let client: any = await loadSavedCredentialsIfExist()
+  if (client) return client
+
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
@@ -116,17 +125,8 @@ async function generateTranslations(auth) {
       translations[locale][row[0]] = row[2]
     }
 
-    // Create enum with all the keys of translations
-    // const enumName = `${locale}Keys`
-    // const enumContent = `export enum ${enumName} {\n${Object.keys(
-    //   translations[locale],
-    // )
-    //   .map(key => `  ${key} = '${key}'`)
-    //   .join(',\n')}\n}`
-    // .d.ts
-
     await fs.writeFile(
-      path.join(process.cwd(), `/src/locales/${locale}.json`),
+      path.join(process.cwd(), `../${localePath}/${locale}.json`),
       JSON.stringify(translations),
     )
   }

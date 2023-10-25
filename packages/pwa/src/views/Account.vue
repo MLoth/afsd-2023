@@ -47,11 +47,13 @@ import useFirebase from '@/composables/useFirebase'
 import { SUPPORTED_LOCALES } from '@/bootstrap/i18n'
 import useLanguage from '@/composables/useLanguage'
 import { useI18n } from 'vue-i18n'
+import useCustomUser from '@/composables/useCustomUser'
 
 const { firebaseUser, logout } = useFirebase()
 const { replace } = useRouter()
 const { setLocale } = useLanguage()
 const { locale } = useI18n()
+const { customUser } = useCustomUser()
 
 firebaseUser.value?.getIdToken().then(token => {
   console.log(`{"Authorization": "Bearer ${token}"}`)
@@ -59,6 +61,7 @@ firebaseUser.value?.getIdToken().then(token => {
 
 const logoutUser = () => {
   logout().then(() => {
+    customUser.value = undefined
     replace({ path: '/' })
   })
 }

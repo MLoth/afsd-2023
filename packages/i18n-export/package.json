@@ -1,0 +1,12 @@
+{
+  "name": "packages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sheet.ts",
+  "scripts": {
+    "export": "npx tsx src/sheet.ts path:pwa/src/locales"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

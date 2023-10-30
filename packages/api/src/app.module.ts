@@ -12,6 +12,7 @@ import { AuthenticationModule } from './authentication/authentication.module'
 import { ConfigModule } from '@nestjs/config'
 import { UsersModule } from './users/users.module'
 import { LivelocationsModule } from './livelocations/livelocations.module'
+import { NotificationsModule } from './notifications/notifications.module'
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { LivelocationsModule } from './livelocations/livelocations.module'
     SeedModule,
     UsersModule,
     LivelocationsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

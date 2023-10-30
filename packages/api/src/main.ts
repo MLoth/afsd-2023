@@ -19,5 +19,6 @@ async function bootstrap() {
   await app.listen(3001)
   console.info(`Server is running on: ${await app.getUrl()}`)
   console.info(`Graphql is running on: ${await app.getUrl()}/graphql`)
+  console.info(`Websocket is running on port ${process.env.WS_PORT || 3004}`)
 }
 bootstrap()

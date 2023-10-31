@@ -44,6 +44,10 @@ export class NotificationsGateway
   }
   handleConnection(client: Socket, ...args: any[]) {
     this.numberOfClients++
+    // Notify connected clients of current users
+    this.server.emit('birdspotter:newuserconnetected', {
+      connectedUsers: this.numberOfClients,
+    })
     console.log('client connected')
     console.log(client.id)
     console.log(client.rooms)

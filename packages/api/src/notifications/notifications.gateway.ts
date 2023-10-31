@@ -74,15 +74,25 @@ export class NotificationsGateway
         liveLoc.geolocation,
       )
       if (currentLoc.length > 0) {
-        console.log('in a known area/location')
-        console.log(currentLoc[0].name)
+        const nameArea = currentLoc[0].name
+        console.log('in a known area/location', nameArea)
+        console.log('put in room')
+        console.log(`Rooms of this client:`, client.rooms)
+        //add client to room
+        client.join(nameArea)
+        console.log(`Rooms of this client:`, client.rooms)
+        //send to all clients in room, except sender
+        //client.to(nameArea).emit('birdspotter:newlocation', liveLoc)
+        //send to all clients in room, including sender
+        this.server
+          .to(nameArea)
+          .emit('birdspotter:newlocation', {
+            location: liveLoc,
+            room: nameArea,
+          })
       } else {
         console.log('not in a known area/location')
       }
-
-      // this.server.emit('birdspotter:newlocation', data) //send to all clients including the one that sent the message
-      //client.broadcast.emit('birdspotter:newlocation', data) //to all but the sender
-      //client.emit('birdspotter:newlocation', liveLoc) //send notification only to the client
 
       return liveLoc
     } catch (err) {

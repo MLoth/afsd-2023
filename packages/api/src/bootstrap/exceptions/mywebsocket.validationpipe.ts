@@ -8,10 +8,10 @@ export class MyWebSocketValidationPipe extends ValidationPipe {
   ) => WsException {
     return (validationErrors?: ValidationError[]) => {
       if (this.isDetailedOutputDisabled) {
-        return new WsException('Bad request')
+        return new WsException({ status: 'error', message: 'Bad request' })
       } else {
         const errors = this.flattenValidationErrors(validationErrors)
-        return new WsException(errors)
+        return new WsException({ status: 'error', message: errors })
       }
     }
   }

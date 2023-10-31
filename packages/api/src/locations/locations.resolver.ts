@@ -3,6 +3,8 @@ import { LocationsService } from './locations.service'
 import { Location } from './entities/location.entity'
 import { CreateLocationInput } from './dto/create-location.input'
 import { UpdateLocationInput } from './dto/update-location.input'
+import { GeoPoint } from 'src/observations/entities/geopoint.entity'
+import { Point } from 'typeorm'
 
 @Resolver(() => Location)
 export class LocationsResolver {
@@ -38,5 +40,12 @@ export class LocationsResolver {
   @Mutation(() => Location)
   removeLocation(@Args('id', { type: () => Int }) id: number) {
     return this.locationsService.remove(id)
+  }
+
+  @Query(() => [Location], { name: 'findAreaByPoint' })
+  findAreaByPoint(
+    @Args('point', { type: () => GeoPoint }) p: Point,
+  ): Promise<Location[]> {
+    return this.locationsService.findLocationByPoint(p)
   }
 }

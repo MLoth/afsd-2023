@@ -3,15 +3,16 @@ import { CreateLocationInput } from './dto/create-location.input'
 import { UpdateLocationInput } from './dto/update-location.input'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Location } from './entities/location.entity'
-import { Repository } from 'typeorm'
+import { MongoRepository } from 'typeorm'
 import { Observation } from 'src/observations/entities/observation.entity'
 import { ObjectId } from 'mongodb'
+import { Point } from 'geojson'
 
 @Injectable()
 export class LocationsService {
   constructor(
     @InjectRepository(Location)
-    private readonly locationRepository: Repository<Location>,
+    private readonly locationRepository: MongoRepository<Location>,
   ) {}
 
   create(createLocationInput: CreateLocationInput) {
@@ -58,6 +59,18 @@ export class LocationsService {
 
     location.lastObservations.push(observation)
     return this.locationRepository.save(location)
+  }
+
+  findLocationByPoint(p: Point): Promise<Location[]> {
+    return this.locationRepository.find({
+      where: {
+        area: {
+          $geoIntersects: {
+            $geometry: p,
+          },
+        },
+      },
+    })
   }
 
   // for seeding

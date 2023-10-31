@@ -84,12 +84,10 @@ export class NotificationsGateway
         //send to all clients in room, except sender
         //client.to(nameArea).emit('birdspotter:newlocation', liveLoc)
         //send to all clients in room, including sender
-        this.server
-          .to(nameArea)
-          .emit('birdspotter:newlocation', {
-            location: liveLoc,
-            room: nameArea,
-          })
+        this.server.to(nameArea).emit('birdspotter:newlocation', {
+          location: liveLoc,
+          room: nameArea,
+        })
       } else {
         console.log('not in a known area/location')
       }
@@ -99,5 +97,10 @@ export class NotificationsGateway
       console.error(err.message)
       throw new WsException(err.message)
     }
+  }
+
+  // send bird observation to all clients in room
+  sendBirdObservationToRoom(roomName: string, observation: any) {
+    this.server.to(roomName).emit('bird:observation', observation)
   }
 }

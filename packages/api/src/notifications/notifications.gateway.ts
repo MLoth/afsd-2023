@@ -1,4 +1,6 @@
 import {
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
@@ -6,6 +8,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { CreateLivelocationInput } from 'src/livelocations/dto/create-livelocation.input'
+import { Livelocation } from 'src/livelocations/entities/livelocation.entity'
 import { LivelocationsService } from 'src/livelocations/livelocations.service'
 import { LocationsService } from 'src/locations/locations.service'
 
@@ -53,4 +57,16 @@ export class NotificationsGateway
     console.log(client.rooms)
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
+
+  @SubscribeMessage('birdspotter:moving')
+  async handleNewLocation(
+    @MessageBody() data: CreateLivelocationInput,
+    @ConnectedSocket() client: Socket,
+  ): Promise<Livelocation>{
+
+   console.log(data)
+    const liveLoc = await this.livelocationsService.create(data)
+    return liveLoc
+  }
+
 }

@@ -7,6 +7,7 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { MyWebSocketValidationPipe } from 'src/bootstrap/exceptions/mywebsocket.validationpipe'
@@ -67,7 +68,12 @@ export class NotificationsGateway
     @ConnectedSocket() client: Socket,
   ): Promise<Livelocation> {
     console.log(data)
-    const liveLoc = await this.livelocationsService.create(data)
-    return liveLoc
+    try {
+      const liveLoc = await this.livelocationsService.create(data)
+      return liveLoc
+    } catch (err) {
+      console.error(err.message)
+      throw new WsException(err.message)
+    }
   }
 }

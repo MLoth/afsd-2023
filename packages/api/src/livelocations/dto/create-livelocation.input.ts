@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 import { Point } from 'geojson'
-import { GeoPolygon } from 'src/locations/entities/geopolygon.entity'
+import { GeoPoint } from 'src/observations/entities/geopoint.entity'
 
 @InputType()
 export class CreateLivelocationInput {
@@ -18,7 +18,7 @@ export class CreateLivelocationInput {
 
   @IsNotEmpty() //validation
   @ValidateNested() //validation
-  @Type(type => GeoPolygon) //class-transfomer, do not forget this, otherwise validation of nested object will not work
-  @Field(() => GeoPolygon, { description: 'Geolocation' })
+  @Type(type => GeoPoint) //class-transfomer, do not forget this, otherwise validation of nested object will not work
+  @Field(() => GeoPoint, { description: 'Geolocation' })
   geolocation: Point
 }

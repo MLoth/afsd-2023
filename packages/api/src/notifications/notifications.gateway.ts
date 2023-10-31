@@ -9,6 +9,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { MyWebSocketValidationPipe } from 'src/bootstrap/exceptions/mywebsocket.validationpipe'
 import { CreateLivelocationInput } from 'src/livelocations/dto/create-livelocation.input'
 import { Livelocation } from 'src/livelocations/entities/livelocation.entity'
 import { LivelocationsService } from 'src/livelocations/livelocations.service'
@@ -59,7 +60,7 @@ export class NotificationsGateway
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
 
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new MyWebSocketValidationPipe())
   @SubscribeMessage('birdspotter:moving')
   async handleNewLocation(
     @MessageBody() data: CreateLivelocationInput,

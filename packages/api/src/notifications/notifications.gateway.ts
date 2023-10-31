@@ -1,8 +1,11 @@
 import {
+  OnGatewayConnection,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WsException,
+  WebSocketServer,
 } from '@nestjs/websockets'
+import { Server, Socket } from 'socket.io'
 import { LivelocationsService } from 'src/livelocations/livelocations.service'
 import { LocationsService } from 'src/locations/locations.service'
 
@@ -16,15 +19,34 @@ import { LocationsService } from 'src/locations/locations.service'
     credentials: true,
   },
 })
-export class NotificationsGateway {
+export class NotificationsGateway
+  implements OnGatewayConnection<Socket>, OnGatewayDisconnect<Socket>
+{
   constructor(
     private readonly livelocationsService: LivelocationsService,
     private readonly locationsService: LocationsService,
   ) {}
 
+  @WebSocketServer() //An alternative for afterInit()
+  server: Server
+
+  numberOfClients: number = 0
+
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
-
     return 'Hello world!'
+  }
+
+  handleDisconnect(client: Socket) {
+    this.numberOfClients--
+    console.log('client disconnected 👋')
+    console.log('Number of clients on the server: ', this.numberOfClients)
+  }
+  handleConnection(client: Socket, ...args: any[]) {
+    this.numberOfClients++
+    console.log('client connected')
+    console.log(client.id)
+    console.log(client.rooms)
+    console.log('Number of clients on the server: ', this.numberOfClients)
   }
 }

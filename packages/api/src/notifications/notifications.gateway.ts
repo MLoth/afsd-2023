@@ -70,6 +70,20 @@ export class NotificationsGateway
     console.log(data)
     try {
       const liveLoc = await this.livelocationsService.create(data)
+      const currentLoc = await this.locationsService.findLocationByPoint(
+        liveLoc.geolocation,
+      )
+      if (currentLoc.length > 0) {
+        console.log('in a known area/location')
+        console.log(currentLoc[0].name)
+      } else {
+        console.log('not in a known area/location')
+      }
+
+      // this.server.emit('birdspotter:newlocation', data) //send to all clients including the one that sent the message
+      //client.broadcast.emit('birdspotter:newlocation', data) //to all but the sender
+      //client.emit('birdspotter:newlocation', liveLoc) //send notification only to the client
+
       return liveLoc
     } catch (err) {
       console.error(err.message)

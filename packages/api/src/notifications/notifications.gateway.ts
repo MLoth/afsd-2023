@@ -1,3 +1,4 @@
+import { UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   ConnectedSocket,
   MessageBody,
@@ -58,15 +59,14 @@ export class NotificationsGateway
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
 
+  @UsePipes(new ValidationPipe())
   @SubscribeMessage('birdspotter:moving')
   async handleNewLocation(
     @MessageBody() data: CreateLivelocationInput,
     @ConnectedSocket() client: Socket,
-  ): Promise<Livelocation>{
-
-   console.log(data)
+  ): Promise<Livelocation> {
+    console.log(data)
     const liveLoc = await this.livelocationsService.create(data)
     return liveLoc
   }
-
 }

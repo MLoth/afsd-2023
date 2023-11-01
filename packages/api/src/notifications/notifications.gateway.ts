@@ -1,4 +1,4 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   ConnectedSocket,
   MessageBody,
@@ -10,6 +10,7 @@ import {
   WsException,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { FirebaseWebsocketGuard } from 'src/authentication/guards/firebase.websocket.guard'
 import { MyWebSocketValidationPipe } from 'src/bootstrap/exceptions/mywebsocket.validationpipe'
 import { CreateLivelocationInput } from 'src/livelocations/dto/create-livelocation.input'
 import { Livelocation } from 'src/livelocations/entities/livelocation.entity'
@@ -61,6 +62,7 @@ export class NotificationsGateway
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
 
+  @UseGuards(FirebaseWebsocketGuard)
   @UsePipes(new MyWebSocketValidationPipe())
   @SubscribeMessage('birdspotter:moving')
   async handleNewLocation(

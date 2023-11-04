@@ -20,6 +20,10 @@ import { UsersModule } from './users/users.module'
       driver: ApolloDriver,
       autoSchemaFile: true,
       playground: process.env.NODE_ENV == 'production' ? false : true,
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': true,
+      },
     }),
 
     TypeOrmModule.forRoot({

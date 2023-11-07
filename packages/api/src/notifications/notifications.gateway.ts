@@ -50,6 +50,7 @@ export class NotificationsGateway
     console.log('client disconnected 👋')
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
+
   handleConnection(client: Socket, ...args: any[]) {
     this.numberOfClients++
     // Notify connected clients of current users
@@ -69,7 +70,6 @@ export class NotificationsGateway
     @MessageBody() data: CreateLivelocationInput,
     @ConnectedSocket() client: Socket,
   ): Promise<Livelocation> {
-    console.log(data)
     try {
       const liveLoc = await this.livelocationsService.create(data)
       const currentLoc = await this.locationsService.findLocationByPoint(
@@ -96,7 +96,7 @@ export class NotificationsGateway
 
       return liveLoc
     } catch (err) {
-      console.error(err.message)
+      console.error('Moving error', err.message)
       throw new WsException(err.message)
     }
   }

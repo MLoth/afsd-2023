@@ -11,7 +11,7 @@ export class FirebaseWebsocketGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const client = context.switchToWs().getClient()
     console.log('FirebaseWebsocketGuard')
-    console.log(client)
+    console.log(client.handshake.headers)
     // Assuming you have some way to obtain user information from the WebSocket connection
     const user = await this.validateUserFromWebSocket(client)
     console.log('***user')
@@ -34,7 +34,9 @@ export class FirebaseWebsocketGuard implements CanActivate {
     // const authToken = client.handshake.auth.token;
     // const user = await yourValidationLogic(authToken);
     // return user;
+
     if (!client.handshake.headers.authorization) {
+      console.log('No authorization header')
       throw new WsException('No authorization header')
     }
     const authToken = client.handshake.headers.authorization.replace(

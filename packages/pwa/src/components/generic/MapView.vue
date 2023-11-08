@@ -34,7 +34,7 @@ export default {
       default: true,
     },
     observationPopup: {
-      type: Object as () => Ref<Observation | null>,
+      type: Object as () => Observation | null | undefined,
       required: false,
       default: null,
     },

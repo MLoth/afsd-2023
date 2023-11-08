@@ -11,6 +11,7 @@ import {
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { FirebaseWebsocketGuard } from 'src/authentication/guards/firebase.websocket.guard'
+import { BirdsService } from 'src/birds/birds.service'
 import { MyWebSocketValidationPipe } from 'src/bootstrap/exceptions/mywebsocket.validationpipe'
 import { CreateLivelocationInput } from 'src/livelocations/dto/create-livelocation.input'
 import { Livelocation } from 'src/livelocations/entities/livelocation.entity'
@@ -33,6 +34,7 @@ export class NotificationsGateway
   constructor(
     private readonly livelocationsService: LivelocationsService,
     private readonly locationsService: LocationsService,
+    private readonly birdService: BirdsService,
   ) {}
 
   @WebSocketServer() //An alternative for afterInit()
@@ -102,7 +104,11 @@ export class NotificationsGateway
   }
 
   // send bird observation to all clients in room
-  sendBirdObservationToRoom(roomName: string, observation: any) {
+  async sendBirdObservationToRoom(roomName: string, observation: any) {
+    const bird = await this.birdService.findOneById(observation.birdId)
+    observation.bird = bird
+    const location = await this.locationsService.findOne(observation.locationId)
+    observation.location = location
     this.server.to(roomName).emit('bird:observation', observation)
   }
 }

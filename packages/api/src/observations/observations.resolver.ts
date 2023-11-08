@@ -47,6 +47,8 @@ export class ObservationsResolver {
       console.log('Is the observation in a known area?', location)
       if (location.length > 0) {
         this.gateway.sendBirdObservationToRoom(location[0].name, observation)
+      } else {
+        console.log('No known area found for this observation')
       }
 
       return observation

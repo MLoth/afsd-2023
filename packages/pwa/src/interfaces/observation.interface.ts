@@ -1,6 +1,5 @@
 import type { Bird } from './bird.interface'
 import type { Location } from './location.interface'
-import { type GeoJSON } from 'geojson'
 
 export interface Observation {
   id: string

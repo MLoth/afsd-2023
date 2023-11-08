@@ -6,10 +6,11 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { type LngLatLike } from 'mapbox-gl'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import { type Polygon } from 'geojson'
 
 import useMapbox from '../../composables/useMapbox'
+import type { Observation } from '@/interfaces/observation.interface'
 
 export default {
   props: {
@@ -26,6 +27,16 @@ export default {
       type: Array as () => Polygon[],
       required: false,
       default: () => [],
+    },
+    listenToInteraction: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    observationPopup: {
+      type: Object as () => Ref<Observation | null>,
+      required: false,
+      default: null,
     },
   },
 
@@ -48,7 +59,8 @@ export default {
       map.on('load', () => {
         renderMarkerIfAny()
         renderPolygonsIfAny()
-        listenToInteraction(emit, 'coordinateSelection')
+        if (props.listenToInteraction)
+          listenToInteraction(emit, 'coordinateSelection')
       })
 
       // When props change, update the map data each time

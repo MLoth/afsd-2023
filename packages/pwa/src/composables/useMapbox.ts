@@ -1,5 +1,5 @@
 import mapboxgl, { Map, MapMouseEvent, Marker } from 'mapbox-gl'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { type MapProps } from '@/interfaces/interface.map-props'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
@@ -100,6 +100,23 @@ export default (props: MapProps) => {
     }
   }
 
+  // const listenToNewObservation = () => {
+  watch(props.observationPopup, observation => {
+    if (!observation) return
+
+    console.log('New observation !', observation)
+    // TODO: create little popup
+    map.value.flyTo({
+      center: [
+        observation.geolocation.coordinates[0],
+        observation.geolocation.coordinates[1],
+      ],
+      zoom: 15,
+      speed: 1,
+    })
+  })
+  // }
+
   const createMap = (htmlRef: HTMLElement): Map => {
     map.value = new Map({
       container: htmlRef,
@@ -117,6 +134,7 @@ export default (props: MapProps) => {
   return {
     createMap,
     renderPolygonsIfAny,
+    // listenToNewObservation,
     renderMarkerIfAny,
     listenToInteraction,
     removeMapData,

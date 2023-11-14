@@ -4,6 +4,7 @@ import { UpdateUserInput } from './dto/update-user.input'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Role, User } from './entities/user.entity'
 import { MongoRepository } from 'typeorm'
+import { ObjectId } from 'mongodb'
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return new Error(`This action returns a #${id} user`)
+    return this.userRepository.findOneBy({ _id: new ObjectId(id) })
   }
 
   findOneByUid(uid: string) {

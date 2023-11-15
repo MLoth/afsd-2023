@@ -1,5 +1,5 @@
 import mapboxgl, { Map, MapMouseEvent, Marker } from 'mapbox-gl'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { type MapProps } from '@/interfaces/interface.map-props'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
@@ -19,6 +19,8 @@ export default (props: MapProps) => {
   }
 
   const _centerMapOnPolygons = () => {
+    console.log('centering map on polygons')
+
     if (props.polygons && props.polygons.length < 1) return
 
     let { lng, lat } = { lng: 0, lat: 0 }
@@ -42,6 +44,8 @@ export default (props: MapProps) => {
   }
 
   const removeMapData = () => {
+    console.log('removing map data')
+
     return new Promise<void>(resolve => {
       addedSources.value.map(source => {
         if (map.value.getLayer(source)) map.value.removeLayer(source)
@@ -54,6 +58,8 @@ export default (props: MapProps) => {
   }
 
   const listenToInteraction = (emit: Function, eventName: string) => {
+    console.log('listening to interaction')
+
     map.value.on('click', (e: MapMouseEvent) => {
       if (selectedMarker.value) selectedMarker.value.remove()
       selectedMarker.value = new Marker({
@@ -67,6 +73,8 @@ export default (props: MapProps) => {
   }
 
   const renderPolygonsIfAny = () => {
+    console.log('rendering polygons')
+
     if (props.polygons && props.polygons.length < 1) return
 
     for (const polygon in props.polygons!) {
@@ -93,12 +101,45 @@ export default (props: MapProps) => {
   }
 
   const renderMarkerIfAny = () => {
+    console.log('rendering markers')
+
     if (props.markers && props.markers.length < 1) return
 
     for (const marker of props.markers!) {
       new mapboxgl.Marker().setLngLat(marker).addTo(map.value)
     }
   }
+
+  watch(
+    computed(() => props.observationPopup),
+    observation => {
+      console.log(observation)
+
+      if (!observation || !observation.geolocation) return
+      map.value.flyTo({
+        center: [
+          observation.geolocation.coordinates[0],
+          observation.geolocation.coordinates[1],
+        ],
+        zoom: 15,
+        speed: 1,
+      })
+
+      const popup = new mapboxgl.Popup({
+        closeOnClick: false,
+        closeButton: true,
+        offset: 25,
+      })
+        .setLngLat([
+          observation.geolocation.coordinates[0],
+          observation.geolocation.coordinates[1],
+        ])
+        .setHTML(
+          `<h1>${observation.bird.name}</h1><p>New bird spotted in ${observation.location.name}!</p>`,
+        )
+        .addTo(map.value)
+    },
+  )
 
   const createMap = (htmlRef: HTMLElement): Map => {
     map.value = new Map({
@@ -117,6 +158,7 @@ export default (props: MapProps) => {
   return {
     createMap,
     renderPolygonsIfAny,
+    // listenToNewObservation,
     renderMarkerIfAny,
     listenToInteraction,
     removeMapData,

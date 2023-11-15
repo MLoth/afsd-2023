@@ -1,4 +1,4 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   ConnectedSocket,
   MessageBody,
@@ -10,6 +10,8 @@ import {
   WsException,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
+import { FirebaseWebsocketGuard } from 'src/authentication/guards/firebase.websocket.guard'
+import { BirdsService } from 'src/birds/birds.service'
 import { MyWebSocketValidationPipe } from 'src/bootstrap/exceptions/mywebsocket.validationpipe'
 import { CreateLivelocationInput } from 'src/livelocations/dto/create-livelocation.input'
 import { Livelocation } from 'src/livelocations/entities/livelocation.entity'
@@ -32,6 +34,7 @@ export class NotificationsGateway
   constructor(
     private readonly livelocationsService: LivelocationsService,
     private readonly locationsService: LocationsService,
+    private readonly birdService: BirdsService,
   ) {}
 
   @WebSocketServer() //An alternative for afterInit()
@@ -49,6 +52,7 @@ export class NotificationsGateway
     console.log('client disconnected 👋')
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
+
   handleConnection(client: Socket, ...args: any[]) {
     this.numberOfClients++
     // Notify connected clients of current users
@@ -61,13 +65,13 @@ export class NotificationsGateway
     console.log('Number of clients on the server: ', this.numberOfClients)
   }
 
+  @UseGuards(FirebaseWebsocketGuard)
   @UsePipes(new MyWebSocketValidationPipe())
   @SubscribeMessage('birdspotter:moving')
   async handleNewLocation(
     @MessageBody() data: CreateLivelocationInput,
     @ConnectedSocket() client: Socket,
   ): Promise<Livelocation> {
-    console.log(data)
     try {
       const liveLoc = await this.livelocationsService.create(data)
       const currentLoc = await this.locationsService.findLocationByPoint(
@@ -94,13 +98,17 @@ export class NotificationsGateway
 
       return liveLoc
     } catch (err) {
-      console.error(err.message)
+      console.error('Moving error', err.message)
       throw new WsException(err.message)
     }
   }
 
   // send bird observation to all clients in room
-  sendBirdObservationToRoom(roomName: string, observation: any) {
+  async sendBirdObservationToRoom(roomName: string, observation: any) {
+    const bird = await this.birdService.findOneById(observation.birdId)
+    observation.bird = bird
+    const location = await this.locationsService.findOne(observation.locationId)
+    observation.location = location
     this.server.to(roomName).emit('bird:observation', observation)
   }
 }

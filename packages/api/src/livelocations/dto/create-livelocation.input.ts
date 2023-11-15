@@ -1,11 +1,6 @@
-import { InputType, Int, Field } from '@nestjs/graphql'
+import { InputType, Field } from '@nestjs/graphql'
 import { Type } from 'class-transformer'
-import {
-  IsMongoId,
-  IsNotEmpty,
-  IsString,
-  ValidateNested,
-} from 'class-validator'
+import { IsMongoId, IsNotEmpty, ValidateNested } from 'class-validator'
 import { Point } from 'geojson'
 import { GeoPoint } from 'src/observations/entities/geopoint.entity'
 

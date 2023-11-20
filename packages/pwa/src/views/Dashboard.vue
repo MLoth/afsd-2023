@@ -21,7 +21,7 @@
                 ...liveObservations,
                 ...observations.observations,
               ]"
-              class="bg-white px-3 py-1 rounded-lg w-auto flex-shrink-0 shadow mb-4"
+              class="bg-white px-3 py-1 rounded-lg w-auto flex-shrink-0 shadow mb-4 @dark:bg-neutral-700"
               @click="() => focusMap(observation)"
               :key="observation.id"
             >
@@ -67,18 +67,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { UseTimeAgo } from '@vueuse/components'
-import { useQuery } from '@vue/apollo-composable'
+import { useQuery, useSubscription } from '@vue/apollo-composable'
 
-<script lang="ts" setup>
 import Container from '@/components/generic/Container.vue'
 import MapView from '@/components/generic/MapView.vue'
 import useRealtime from '@/composables/useRealtime'
 import { ALL_OBSERVATIONS } from '@/graphql/observation.query'
 import type { Observation } from '@/interfaces/observation.interface'
-import { useSubscription } from '@vue/apollo-composable'
+import { USER_CREATED } from '@/graphql/user.subscription'
 
 const { result: observations, loading: loadingObservations } =
   useQuery(ALL_OBSERVATIONS)
@@ -99,8 +98,6 @@ const focusMap = (observation: Observation) => {
   console.log('Focus map', observation)
   newObservation.value = observation
 }
-import { USER_CREATED } from '@/graphql/user.subscription'
-import { watch } from 'vue'
 
 const { result: userCreated } = useSubscription(USER_CREATED)
 

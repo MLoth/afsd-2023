@@ -51,9 +51,39 @@
 <script setup lang="ts">
 import Container from '@/components/generic/Container.vue'
 import { useQuery } from '@vue/apollo-composable'
+import { useGeolocation } from '@vueuse/core'
 
 import { ALL_OBSERVATIONS } from '@/graphql/observation.query'
 import { Plus } from 'lucide-vue-next'
+import useRealtime from '@/composables/useRealtime'
+import useCustomUser from '@/composables/useCustomUser'
+import { watch } from 'vue'
 
 const { error, result, loading, refetch } = useQuery(ALL_OBSERVATIONS)
+const { emit } = useRealtime()
+const { customUser } = useCustomUser()
+const { coords, error: locationError, isSupported, pause } = useGeolocation()
+
+watch(locationError, error => {
+  console.log(error)
+})
+
+watch(coords, () => {
+  console.log('coords changed', coords)
+  if (coords.value) {
+    pause() // Only get it once (for now)
+
+    const payload = {
+      idUser: customUser.value?.id,
+      geolocation: {
+        type: 'Point',
+        coordinates: [coords.value.latitude, coords.value.longitude],
+      },
+    }
+
+    emit('birdspotter:moving', {
+      ...payload,
+    })
+  }
+})
 </script>

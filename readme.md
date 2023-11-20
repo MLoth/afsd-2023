@@ -18,6 +18,8 @@ DB_HOST=
 DB_PORT=
 DB_NAME=
 
+WS_PORT=
+
 NODE_ENV=
 ```
 

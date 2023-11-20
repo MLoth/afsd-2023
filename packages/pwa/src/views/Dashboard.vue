@@ -14,12 +14,26 @@
       <div>
         <h2>Bird of the day</h2>
       </div>
+
+      <div>
+        <h2 class="text-2xl font-bold">Welcome to our newest member!</h2>
+        {{ userCreated?.newUserWasCreated?.content }}
+        Welcome, {{ userCreated?.newUserWasCreated?.who }}
+      </div>
     </Container>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Container from '@/components/generic/Container.vue'
+import { useSubscription } from '@vue/apollo-composable'
 
-export default { components: { Container } }
+import { USER_CREATED } from '@/graphql/user.subscription'
+import { watch } from 'vue'
+
+const { result: userCreated } = useSubscription(USER_CREATED)
+
+watch(userCreated, (data: any) => {
+  console.log('New message received:', data)
+})
 </script>

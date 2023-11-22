@@ -2,7 +2,9 @@
   "name": "afsd-2023",
   "version": "0.0.0",
   "scripts": {
-    "dev": "todo",
+    "dev": "npx lerna run --scope={pwa,api} dev",
+    "dev:api": "npx lerna run --scope=api dev",
+    "dev:pwa": "npx lerna run --scope=pwa dev",
     "translate:pwa": "npm run generate:translations -w pwa"
   },
   "repository": {
@@ -29,5 +31,9 @@
     "proseWrap": "preserve",
     "htmlWhitespaceSensitivity": "css",
     "endOfLine": "lf"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^7.4.2"
   }
 }

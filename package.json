@@ -5,7 +5,9 @@
     "dev": "npx lerna run --scope={pwa,api} dev",
     "dev:api": "npx lerna run --scope=api dev",
     "dev:pwa": "npx lerna run --scope=pwa dev",
-    "translate:pwa": "npm run generate:translations -w pwa"
+    "translate:pwa": "npm run generate:translations -w pwa",
+    "build:pwa": "npm lerna run --scope=pwa build",
+    "build:api": "npm lerna run --scope=api build"
   },
   "repository": {
     "type": "git",

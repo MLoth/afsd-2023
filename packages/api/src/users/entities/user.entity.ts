@@ -1,4 +1,5 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql'
+import { ObjectType, Field } from '@nestjs/graphql'
+import { GraphQLObjectID } from 'graphql-scalars'
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +17,7 @@ export enum Role {
 @ObjectType()
 export class User {
   @ObjectIdColumn()
-  @Field(() => ID)
+  @Field(() => GraphQLObjectID)
   id: string
 
   @Column()

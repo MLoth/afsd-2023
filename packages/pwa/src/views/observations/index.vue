@@ -57,12 +57,16 @@ import { ALL_OBSERVATIONS } from '@/graphql/observation.query'
 import { Plus } from 'lucide-vue-next'
 import useRealtime from '@/composables/useRealtime'
 import useCustomUser from '@/composables/useCustomUser'
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 
 const { error, result, loading, refetch } = useQuery(ALL_OBSERVATIONS)
 const { emit } = useRealtime()
 const { customUser } = useCustomUser()
 const { coords, error: locationError, isSupported, pause } = useGeolocation()
+
+onMounted(() => {
+  if (result.value) refetch()
+})
 
 watch(locationError, error => {
   console.log(error)

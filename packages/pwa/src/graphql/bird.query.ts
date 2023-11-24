@@ -1,6 +1,7 @@
-import gql from 'graphql-tag'
+import type { Bird } from '@/interfaces/bird.interface'
+import { gql, type TypedDocumentNode } from '@apollo/client'
 
-export const ALL_BIRDS = gql`
+export const ALL_BIRDS: TypedDocumentNode<Bird[]> = gql`
   query birds {
     birds {
       __typename
@@ -17,7 +18,10 @@ export const ALL_BIRDS = gql`
   }
 `
 
-export const FIND_BIRDS_BY_SEARCH_STRING = gql`
+export const FIND_BIRDS_BY_SEARCH_STRING: TypedDocumentNode<
+  Bird[],
+  { searchString: string }
+> = gql`
   query findBirdsBySearchString($searchString: String!) {
     findBirdsBySearchString(searchString: $searchString) {
       __typename

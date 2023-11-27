@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { TypeOrmDataSourceFactory, TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
-import { MongooseModule } from '@nestjs/mongoose'
 
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
@@ -24,7 +23,7 @@ import { NotificationsModule } from './notifications/notifications.module'
 
     TypeOrmModule.forRootAsync({
       useFactory: async () => {
-        if (process.env.E2E_TEST) {
+        if (process.env.FIREBASE_AUTH_EMULATOR_HOST) {
           const mongo = await MongoMemoryServer.create({
             instance: {
               dbName: process.env.DB_NAME,

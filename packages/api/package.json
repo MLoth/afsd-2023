@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "dev:emulate": "npx cross-env E2E_TEST=true FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 npm run dev"
+    "dev:emulate": "FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 npm run dev"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

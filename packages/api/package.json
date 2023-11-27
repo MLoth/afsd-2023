@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "dev:emulate": "npm run dev"
+    "dev:emulate": "npx cross-env E2E_TEST=true FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 npm run dev"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
@@ -27,7 +27,7 @@
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^12.0.9",
-    "@nestjs/mongoose": "^10.0.1",
+    "@nestjs/mongoose": "^10.0.2",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/platform-socket.io": "^9.4.3",
@@ -43,6 +43,7 @@
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.14.2",
     "mongodb": "^5.9.1",
+    "mongodb-memory-server": "^9.1.1",
     "nestjs-command": "^3.1.4",
     "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",

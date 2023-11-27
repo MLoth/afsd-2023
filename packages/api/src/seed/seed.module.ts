@@ -10,4 +10,14 @@ import { LocationsModule } from 'src/locations/locations.module'
   imports: [BirdsModule, ObservationsModule, LocationsModule, CommandModule],
   providers: [DatabaseSeedCommand, SeedService],
 })
-export class SeedModule {}
+export class SeedModule {
+  async seedE2ETestDB() {
+    console.debug('E2E_TEST running, seeding database')
+    await this.seedService.addBirdsFromJson()
+    await this.seedService.addObservationsFromJson()
+  }
+
+  constructor(private readonly seedService: SeedService) {
+    if (process.env.E2E_TEST) this.seedE2ETestDB()
+  }
+}

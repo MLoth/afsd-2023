@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common'
+
 import { BirdsService } from 'src/birds/birds.service'
 import { ObservationsService } from 'src/observations/observations.service'
 import { Bird } from 'src/birds/entities/bird.entity'
 import { Observation } from 'src/observations/entities/observation.entity'
 import { GeoPoint } from 'src/observations/entities/geopoint.entity'
-import * as birds from './data/birds.json'
-import * as locations from './data/locations.json'
 import { CreateObservationInput } from 'src/observations/dto/create-observation.input'
 import { CreateLocationInput } from 'src/locations/dto/create-location.input'
 import { LocationsService } from 'src/locations/locations.service'
+
+import * as birds from 'src/seed/data/birds.json'
+import * as locations from 'src/seed/data/locations.json'
 
 @Injectable()
 export class SeedService {
@@ -20,6 +22,7 @@ export class SeedService {
 
   async addBirdsFromJson(): Promise<Bird[]> {
     let theBirds: Bird[] = []
+
     for (let bird of birds) {
       const b = new Bird()
       b.name = bird.name
@@ -32,7 +35,11 @@ export class SeedService {
       theBirds.push(b)
     }
 
-    return this.birdsService.saveAll(theBirds)
+    try {
+      return this.birdsService.saveAll(theBirds)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async addObservationsFromJson(): Promise<Observation[]> {
@@ -49,6 +56,7 @@ export class SeedService {
 
       for (const observation of myLocation.birds) {
         const b = await this.birdsService.findOneByName(observation.name)
+
         const myObservation = new CreateObservationInput()
         myObservation.birdId = b.id
         myObservation.locationId = newLoc.id.toString()

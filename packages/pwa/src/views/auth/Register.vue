@@ -78,16 +78,17 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+import { Loader2 } from 'lucide-vue-next'
+
 import { type AuthError } from 'firebase/auth'
+import { useMutation } from '@vue/apollo-composable'
 
 import useFirebase from '@/composables/useFirebase'
 import useCustomUser from '@/composables/useCustomUser'
-import { useMutation } from '@vue/apollo-composable'
 import { ADD_USER } from '@/graphql/user.mutation'
-import { useI18n } from 'vue-i18n'
-import type { CustomUser } from '@/interfaces/custom.user.interface'
-import { Loader2 } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
 
 export default {
   setup() {
@@ -104,12 +105,13 @@ export default {
     })
     const error = ref<AuthError | null>(null)
 
-    const { mutate: addUser, loading: addUserLoading } =
-      useMutation<CustomUser>(ADD_USER)
+    const { mutate: addUser, loading: addUserLoading } = useMutation(ADD_USER)
 
     const handleRegister = () => {
       register(newUser.value.name, newUser.value.email, newUser.value.password)
-        .then(() => {
+        .then(user => {
+          console.log('Got', user)
+
           addUser({
             createUserInput: {
               locale: locale.value,
@@ -117,7 +119,9 @@ export default {
           }).then(result => {
             if (!result?.data) throw new Error('Custom user creation failed.')
 
-            customUser.value = result.data
+            customUser.value = result.data.createUser
+            console.log('Custom user', customUser.value)
+
             replace('/')
           })
         })

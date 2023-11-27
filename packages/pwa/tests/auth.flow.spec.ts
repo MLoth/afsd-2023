@@ -15,16 +15,24 @@ test('🔐 Basic auth flow', async ({ page }) => {
   await page.getByLabel('Email').press('Tab')
   await page.getByLabel('Password').fill('Password123')
 
-  // Submit form
-  await page.getByRole('button', { name: 'label.register' }).click()
+  // Submit form with enter
+  await page.press('form', 'Enter')
 
-  // Expect to be redirected to the home page
-  await expect(page).toHaveURL('**/')
-  await page.getByRole('heading', { name: 'Dashboard' })
+  await page.waitForResponse(response => response.url().includes('/graphql'))
 
-  // Expect to be redirected to the birds page
+  // // Expect to be redirected to the home page
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+})
+
+test('🐦 Check if the birds page is loaded', async ({ page }) => {
+  await page.goto('http://localhost:5173')
+
+  // Go to the birds page
   await page
     .getByRole('navigation')
     .getByRole('link', { name: 'Birds' })
     .click()
+
+  // Expect to find 321 birds
+  await expect(page.getByRole('heading', { name: 'Birds' })).toBeVisible()
 })

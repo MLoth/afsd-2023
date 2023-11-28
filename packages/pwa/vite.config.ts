@@ -9,7 +9,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [
     vue(),
+
     UnoCSS(),
+
     VitePWA({
       manifest: {
         name: 'Birds observations',

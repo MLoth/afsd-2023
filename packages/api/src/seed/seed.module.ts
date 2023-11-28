@@ -18,6 +18,7 @@ export class SeedModule {
   }
 
   constructor(private readonly seedService: SeedService) {
-    if (process.env.E2E_TEST) this.seedE2ETestDB()
+    // A spy is obviously better than an if-statement
+    if (process.env.FIREBASE_AUTH_EMULATOR_HOST) this.seedE2ETestDB()
   }
 }

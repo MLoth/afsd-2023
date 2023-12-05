@@ -73,7 +73,7 @@
           </div>
         </template>
         <template v-else>
-          <div v-for="bird of result.birds" :key="bird.id">
+          <div v-if="result" v-for="bird of result.birds" :key="bird.id">
             <div class="flex items-center gap-6">
               <img
                 class="max-w-48"

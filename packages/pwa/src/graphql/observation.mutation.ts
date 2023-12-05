@@ -1,5 +1,5 @@
 import type { Observation } from '@/interfaces/observation.interface'
-import { gql, type TypedDocumentNode } from '@apollo/client'
+import { gql, type TypedDocumentNode } from '@apollo/client/core'
 
 export const ADD_OBSERVATION: TypedDocumentNode<
   { createObservation: Observation },

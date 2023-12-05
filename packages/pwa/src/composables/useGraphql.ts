@@ -3,7 +3,6 @@ import {
   createHttpLink,
   from,
   InMemoryCache,
-  HttpLink,
   split,
 } from '@apollo/client/core'
 import { getMainDefinition } from '@apollo/client/utilities'

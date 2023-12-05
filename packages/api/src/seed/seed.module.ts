@@ -10,4 +10,15 @@ import { LocationsModule } from 'src/locations/locations.module'
   imports: [BirdsModule, ObservationsModule, LocationsModule, CommandModule],
   providers: [DatabaseSeedCommand, SeedService],
 })
-export class SeedModule {}
+export class SeedModule {
+  async seedE2ETestDB() {
+    console.debug('E2E_TEST running, seeding database')
+    await this.seedService.addBirdsFromJson()
+    await this.seedService.addObservationsFromJson()
+  }
+
+  constructor(private readonly seedService: SeedService) {
+    // A spy is obviously better than an if-statement
+    if (process.env.FIREBASE_AUTH_EMULATOR_HOST) this.seedE2ETestDB()
+  }
+}

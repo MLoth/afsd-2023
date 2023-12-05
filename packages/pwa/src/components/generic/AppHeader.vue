@@ -1,6 +1,6 @@
 <template>
   <Container class="py-12">
-    <header class="flex items-center justify-between">
+    <header class="flex items-center justify-between bg-favorite">
       <RouterLink
         class="flex items-center space-x-4 hover:opacity-30 focus:outline-none focus-visible:ring-4 ring-blue-400 rounded-lg"
         to="/"

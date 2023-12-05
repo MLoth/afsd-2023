@@ -9,7 +9,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "generate:translations": "npx tsx ./src/utils/sheet.ts",
-    "run:pwa": "npm run build && npx serve dist"
+    "run:pwa": "npm run build && npx serve dist",
+    "dev:emulate": "VITE_EMULATION=true npm run dev | npx firebase-tools emulators:start --only auth"
   },
   "dependencies": {
     "@apollo/client": "^3.8.7",
@@ -30,9 +31,9 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
     "@tsconfig/node18": "^18.2.2",
     "@types/mapbox-gl": "^2.7.15",
-    "@types/node": "^18.17.15",
     "@vitejs/plugin-vue": "^4.3.4",
     "@vue/tsconfig": "^0.4.0",
     "npm-run-all": "^4.1.5",

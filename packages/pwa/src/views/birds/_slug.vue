@@ -1,5 +1,5 @@
 <template>
-  <Container v-if="!loading">
+  <Container v-if="!loading && result">
     <h1 class="flex text-4xl font-bold tracking-wide mb-2 gap-3">
       {{ result.bird.name }}
     </h1>
